@@ -1,3 +1,17 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+
+
+# Game boards
+
+#Create ships
+
+#Get ship location - Ask user for row and column
+
+#Count hit ships
+
+
+
+
+print("Welcome to Battleships!")
+print("Board size: , numbers of ships: \n")
+print("How to play: \n")
+name = input("What is your name: ")
