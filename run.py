@@ -1,7 +1,8 @@
-HIDDEN_BOARD = [[" "] * 8 for x in range(8)]
-GUESS_BOARD = [["_"] * 8 for x in range(8)]
+import random
 
-letters_to_numbers = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8}
+HIDDEN_BOARD = [[" "] * 8 for _ in range(8)]
+GUESS_BOARD = [[" "] * 8 for _ in range(8)]
+PLAYERS_BOARD = [[" "] * 8 for _ in range(8)]
 
 
 def print_board(board):
@@ -15,55 +16,105 @@ def print_board(board):
         print(f"{row_num}|{'|'.join(row)}|")
         row_num += 1
 
-print("Welcome to Battleships!")
-name = input("What is your name: ")
-print("Start the game by placing your ships on the board.\n")
-print_board(HIDDEN_BOARD)
 
-ships = {
-    "Battleship": {"size": 4, "char":'B', "position": None, "orientation": None},
-    "Submarine": {"size": 3, "char":'S', "position": None, "orientation": None},
-    "Patrol_boat": {"size": 2, "char":'P', "position": None, "orientation": None},
+SHIPS = {
+    "BATTLESHIP": {"size": 4, "char": "B", "position": None, "orientation": None},
+    "SUBMARINE": {"size": 3, "char": "S", "position": None, "orientation": None},
+    "PATROL_BOAT": {"size": 2, "char": "P", "position": None, "orientation": None},
 }
 
-def is_valid_placement(position, orientation, ship_size):
+def create_computer_ships(board):
     """
-    Convert letter to number and check if the position is valid.
+    Create computer's ships on board randomly, placement marked with ships character.
+    Checks the size of the ship to verify that placement is valid.
     """
-    col = ord(position[0]) + ord('A') + 1
-    row = int(position[1:])
+    for ship, details in SHIPS.items():
+        ship_char = details["char"]
+        ship_size = details["size"]
 
-    if orientation == 'H' and col + ship_size > 7:
-        return False
-    if orientation == 'V' and row + ship_size > 7:
-        return False
+        placed = False
+        while not placed:
+            orientation = random.choice(["H", "V"])
+            if orientation == "H":
+                ship_row = random.randint(0, 7)
+                ship_column = random.randint(0, 7 - ship_size)
+            else:
+                ship_row = random.randint(0, 7 - ship_size)
+                ship_column = random.randint(0, 7)
+            if orientation == "H":
+                if all(
+                    [board[ship_row][ship_column + i] == " " for i in range(ship_size)]
+                ):
+                    for i in range(ship_size):
+                        board[ship_row][ship_column + i] = ship_char
+                    placed = True
+            else:
+                if all(
+                    [board[ship_row + i][ship_column] == " " for i in range(ship_size)]
+                ):
+                    for i in range(ship_size):
+                        board[ship_row + i][ship_column] = ship_char
+                    placed = True
 
-    return True
-
-def get_ship_placement(ship_name, ship_size):
+def players_guess():
     """
-    Let the player choose a starting position and orientation for a ships.
-    Checks if the placement is valid.
+    Convert letters to numbers, get location of ships.
+    Limit player to only enter numbers for row and letters for column.
+    Returns row and column of location of input.
     """
-    print("\nShip sizes (1 x): Battleship: 4, Submarine: 3, Patrol_boat: 2")
-    while True:
-        position = input(f"Enter starting position for {ship_name} (e.g. A3): ").upper()
-        orientation = input("Enter orientation (H for horizontal, V for vertical): ").upper()
+    letters_to_numbers = {
+        "A": 0,
+        "B": 1,
+        "C": 2,
+        "D": 3,
+        "E": 4,
+        "F": 5,
+        "G": 6,
+        "H": 7,
+    }
 
-        if is_valid_placement(position, orientation, ship_size):
-            return position, orientation
-        else:
-            print("Invalid placement, please try again.")
+    row = input('Please enter a ship row, 1-8: ')
+    while not row.isdigit() or row not in "12345678":
+        row = input("Please enter a vaild ship row, 1-8: ")
 
-for ship, details in ships.items():
-    position, orientation = get_ship_placement(ship, details["size"])
-    details["position"] = position
-    details["orientation"] = orientation
+    column = input('Please enter a ship column, A-H: ').upper()
+    while not column.isalpha() or column not in "ABCDEFGH":
+        column = input("Please enter a valid ship column, A-H: ").upper()
 
-# Place computers ships
+    return int(row) -1, letters_to_numbers[column]
 
-# Get ship location - Ask user for row and column
 
-# Count hit ships
+def count_hit_ships(board):
+    ""
+    count = 0
+    for row in board:
+        for cell in row:
+            if cell in [details["char"] for details in SHIPS.values()]:
+                count += 1
 
-# print("How to play: \n")
+print("Welcome to Battleships!")
+name = input("What is your name: ")
+while not name.isalpha():
+    name = input("Enter your name (letter only): ")
+
+char_to_ship = {details["char"]: ship for ship, details in SHIPS.items()}
+
+create_computer_ships(HIDDEN_BOARD)
+while True:
+    print_board(GUESS_BOARD)
+    row, column = players_guess()
+    if GUESS_BOARD[row][column] == "X":
+        print("You already guessed that, try again.\n")
+    else:
+        HIT_SHIP = None
+        for ship, details in SHIPS.items():
+            if HIDDEN_BOARD[row][column] == details["char"]:
+                HIT_SHIP = ship
+                break
+
+    if HIT_SHIP:
+        print(f"You hit the {HIT_SHIP}!")
+        GUESS_BOARD[row][column] = HIDDEN_BOARD[row][column]
+    else:
+        print("Miss!\n")
+        GUESS_BOARD[row][column] = "X"
