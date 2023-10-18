@@ -56,6 +56,38 @@ def create_computer_ships(board):
                         board[ship_row + i][ship_column] = ship_char
                     placed = True
 
+def place_players_ships(board):
+    """
+    Let player place their ships on board, by choosing starting position and orientation.
+    Placement marked with ships character.
+    """
+    for ship, details in ships.items():
+        ship_char = details["char"]
+        ship_size = details["size"]
+
+        print_board(HIDDEN_BOARD)
+        print("Start the game by placing your ships on the board.\n")
+        print("Ship sizes (1 x): Battleship: 4, Submarine: 3, Patrol_boat: 2")
+        while True:
+            position = input(
+                f"Please enter starting position for {ship} (e.g. A1): "
+            ).upper()
+            orientation = input(
+                f"Enter orientation (H for horizontal, V for vertical): "
+            ).upper()
+
+            placed_ship = position[0] + ord("A") - 1
+            row = int(position[1:])
+
+            if orientation == "H" and placed_ship + ship_size > 7:
+                print("Please enter a valid orientation.")
+                return False
+            elif orientation == "V" and placed_ship + ship_size > 7:
+                print("Please enter a valid orientation.")
+                return False
+            else:
+                return position, orientation
+
 def players_guess():
     """
     Convert letters to numbers, get location of ships.
