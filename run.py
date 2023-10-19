@@ -5,7 +5,6 @@ HIDDEN_BOARD = [[" "] * 8 for _ in range(8)]
 GUESS_BOARD = [[" "] * 8 for _ in range(8)]
 PLAYERS_BOARD = [[" "] * 8 for _ in range(8)]
 
-
 def print_board(board):
     """
     Printing the game boards.
@@ -162,11 +161,13 @@ def players_guess():
 
 def computer_guess(board):
     """
-    Convert letters to numbers, get location of ships.
+    Let the computer randomly guess the placement of the player's ships.
+    Checkes if the cell has been guessed or missed before.
     """
     column, row = random.randint(0, 7), random.randint(0, 7)
     while board[row][column] == "X" or board[row][column] == "-":
         row, column = random.randint(0, 7), random.randint(0, 7)
+
     print(row, column)
     return row, column
 
@@ -182,52 +183,57 @@ def count_hit_ships(board):
                 count += 1
     return count
 
+def main():
+    """
+    Run all game functions
+    """
+    place_players_ships(PLAYERS_BOARD)
+    char_to_ship = {details["char"]: ship for ship, details in SHIPS.items()}
+
+    create_computer_ships(HIDDEN_BOARD)
+    while True:
+        print_board(GUESS_BOARD)
+        row, column = players_guess()
+        if GUESS_BOARD[row][column] == "X":
+            print("You already guessed that, try again.\n")
+        else:
+            HIT_SHIP = None
+            for ship, details in SHIPS.items():
+                if HIDDEN_BOARD[row][column] == details["char"]:
+                    HIT_SHIP = ship
+                    break
+        if HIT_SHIP:
+            print(f"You hit the {HIT_SHIP}!\n")
+            GUESS_BOARD[row][column] = HIDDEN_BOARD[row][column]
+        else:
+            print("Miss!\n")
+            GUESS_BOARD[row][column] = "X"
+
+        computer_row, computer_column = computer_guess(PLAYERS_BOARD)
+        HIT_SHIP = None
+        for ship, details in SHIPS.items():
+            if PLAYERS_BOARD[computer_row][computer_column] == details["char"]:
+                HIT_SHIP = ship
+                break
+        if HIT_SHIP:
+            print(f"Computer hit your {HIT_SHIP}!\n")
+            PLAYERS_BOARD[computer_row][computer_column] = "X"
+            print_board(PLAYERS_BOARD)
+        else:
+            print("Computer missed!\n")
+            PLAYERS_BOARD[computer_row][computer_column] = "-"
+            print_board(PLAYERS_BOARD)
+
+        print("\nYour turn!")
+
+        if count_hit_ships(GUESS_BOARD) == 9:
+            print(f"Congratulations, {name}! You won the game!\n")
+            break
+        elif count_hit_ships(PLAYERS_BOARD) == 12:
+            print(f"Sorry, {name}! You lost the game!\n")
+            break
 
 print("Welcome to Battleships!")
 name = input("What is your name: ")
 while not name.isalpha():
     name = input("Enter your name (letter only): ")
-
-place_players_ships(PLAYERS_BOARD)
-char_to_ship = {details["char"]: ship for ship, details in SHIPS.items()}
-
-create_computer_ships(HIDDEN_BOARD)
-while True:
-    print_board(GUESS_BOARD)
-    row, column = players_guess()
-    if GUESS_BOARD[row][column] == "X":
-        print("You already guessed that, try again.\n")
-    else:
-        HIT_SHIP = None
-        for ship, details in SHIPS.items():
-            if HIDDEN_BOARD[row][column] == details["char"]:
-                HIT_SHIP = ship
-                break
-    if HIT_SHIP:
-        print(f"You hit the {HIT_SHIP}!\n")
-        GUESS_BOARD[row][column] = HIDDEN_BOARD[row][column]
-    else:
-        print("Miss!\n")
-        GUESS_BOARD[row][column] = "X"
-
-    computer_guess(PLAYERS_BOARD)
-    HIT_SHIP = None
-    for ship, details in SHIPS.items():
-        if PLAYERS_BOARD[row][column] == details["char"]:
-            HIT_SHIP = ship
-            break
-    if HIT_SHIP:
-        print(f"Computer hit your {HIT_SHIP}!\n")
-        PLAYERS_BOARD[row][column] = "X"
-        print_board(PLAYERS_BOARD)
-    else:
-        print("Computer missed!\n")
-        PLAYERS_BOARD[row][column] = "-"
-        print_board(PLAYERS_BOARD)
-
-    print("\nYour turn!\n")
-
-    if count_hit_ships(GUESS_BOARD) == 9:
-        print(f"Congratulations, {name}! You won the game!\n")
-    else:
-        print(f"Sorry, {name}! You lost the game!\n")
