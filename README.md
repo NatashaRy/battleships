@@ -88,8 +88,33 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ​
 ​
 ## **Features**
+* Accepts user input
+    * Users name
+    * Row and column in format e.g. 'A1'
+
+* Different types of ships
+    * Three different types of ships
+    * Marked with first character of ships name on board
+
+* Generating random board
+    * Ships are randomly placed for the computer
+    * Player can not see placement of computers ships
+
+* Let player place ships on board
+    * Player choses start position, row and column for the ships
+    * Player chooses which orientation the ship should have
+
+* Play against computer
+    *
+
+* Input validation
+    * Check that the input is in correct format e.g. 'A1'
+    * Player or computer can not make the same guess twice
+    * Ships can not be placed outside of the board
+    
 
 ### **Existing features**
+
 * This is where you will place all of your features think about each section of the page include a screenshot and a few bullet points on how it's presented and why
 ​
 ### **Future-Enhancements**
@@ -101,19 +126,26 @@ We have tested the game simultaneously througout development. Every function has
 ​
 ​
 ### **Bugs**
-​
 #### **During development**
-1. Input of row and column
-* Issue - During development we realised that the formatting of input for row and column differed between when the player would add ships (e.g. 'A1') and make guesses (e.g. '1A'). 
-* Resolution - To fix this we changed the order of the valid pattern, so the letter would come first and the number after instead of the opposite that it was from the start.
+1. **Input of row and column**
+    * Issue - During development we realised that the formatting of input for row and column differed between when the player would add ships (e.g. 'A1') and make guesses (e.g. '1A'). 
+    * Resolution - To fix this we changed the order of the valid pattern, so the letter would come first and the number after instead of the opposite that it was from the start.
+ 
 
-2. Computers guess
-* Issue - When adding the function to make the computer guess the placement of the players ships we realised that the computer only was checking the location of the players guess on the `HIDDEN_BOARD`, not actually guessing the the location of the playes ships on the `PLAYERS_BOARD`.
-* Resolution: We change `row` and `column` to `computer_row` and `computer_column` when calling the `computer_guess` function to capture the values of the computer's guess and update the `PLAYERS_BOARD` accordingly.
 
-3. Player could not guess again on repeat guess
-* Issue - When the player tried to guess at the same place a previous guess was made, the game asked the player to try again while the code continued, preventing the player from making another guess until the next round. 
-* Resolution - By adding a `continue` statement we ensure the player would get a new try before the computer made its guess. ​
+2. **Computers guess**
+    * Issue - When adding the function to make the computer guess the placement of the players ships we realised that the computer only was checking the location of the players guess on the `HIDDEN_BOARD`, not actually guessing the the location of the playes ships on the `PLAYERS_BOARD`.
+    * Resolution: We change `row` and `column` to `computer_row` and `computer_column` when calling the `computer_guess` function to capture the values of the computer's guess and update the `PLAYERS_BOARD` accordingly.
+ 
+
+3. **Player could not guess again on repeat guess**
+    * Issue - When the player tried to guess at the same place a previous guess was made, the game asked the player to try again while the code continued, preventing the player from making another guess until the next round. 
+    * Resolution - By adding a `continue` statement we ensure the player would get a new try before the computer made its guess.
+ 
+
+4. **Reuse of `count` variable**
+    * Issue - When adding the `check_sunk_ships` function we used the `count` variable to count the characters on the board. Earlier we had used the `count` variable for the `count_hit_ships` function. When testing the `check_sunk_ships` function we realised that the behaviour of the `count_hit_ships` function had changed and the computer would win after making the first guess.
+    * Resolution - By changing the variables to `hit_count` and `ship_count` , which made them unique the problem was solved and both functions worked as expected.
 
 ​
 ***
