@@ -131,7 +131,6 @@ def players_guess():
     Limit player to only enter specific format for guess (e.g., '1A', '2B').
     Returns row and column of location of input.
     """
-
     print(HIDDEN_BOARD)
 
     letters_to_numbers = {
@@ -161,6 +160,14 @@ def players_guess():
     row = guess[1]
     
     return int(row) - 1, letters_to_numbers[column]
+
+def computer_guess(board):
+    """
+    Convert letters to numbers, get location of ships.
+    """
+    column, row = random.randint(0, 7), random.randint(0, 7)
+    print(column, row)
+    return row, column
 
 
 def count_hit_ships(board):
@@ -202,6 +209,22 @@ while True:
         print("Miss!\n")
         GUESS_BOARD[row][column] = "X"
 
+    computer_guess(PLAYERS_BOARD[row][column])
+    if PLAYERS_BOARD[row][column] == "X":
+        computer_guess(PLAYERS_BOARD)
+    else:    
+        HIT_SHIP = None
+        for ship, details in SHIPS.items():
+            if PLAYERS_BOARD[row][column] == details["char"]:
+                HIT_SHIP = ship
+                break
+    if HIT_SHIP:
+        print(f"Computer hit your {HIT_SHIP}!\n")
+    else:
+        print("Computer missed!\n")
+        PLAYERS_BOARD[row][column] = "-"
+
     if count_hit_ships(GUESS_BOARD) == 9:
         print(f"Congratulations, {name}! You won the game!\n")
-        break
+    elif count_hit_ships(PLAYERS_BOARD) == 9:
+        print(f"Game over! The computer won.\n")
