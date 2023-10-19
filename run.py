@@ -166,13 +166,15 @@ def computer_guess(board):
     Convert letters to numbers, get location of ships.
     """
     column, row = random.randint(0, 7), random.randint(0, 7)
-    print(column, row)
+    while board[row][column] == "X" or board[row][column] == "-":
+        row, column = random.randint(0, 7), random.randint(0, 7)
+    print(row, column)
     return row, column
 
 
 def count_hit_ships(board):
     """
-    Count the number of ships hit by player.
+    Count the number of ships hit.
     """
     count = 0
     for row in board:
@@ -209,22 +211,24 @@ while True:
         print("Miss!\n")
         GUESS_BOARD[row][column] = "X"
 
-    computer_guess(PLAYERS_BOARD[row][column])
-    if PLAYERS_BOARD[row][column] == "X":
-        computer_guess(PLAYERS_BOARD)
-    else:    
-        HIT_SHIP = None
-        for ship, details in SHIPS.items():
-            if PLAYERS_BOARD[row][column] == details["char"]:
-                HIT_SHIP = ship
-                break
+    computer_guess(PLAYERS_BOARD)   
+    HIT_SHIP = None
+    for ship, details in SHIPS.items():
+        if PLAYERS_BOARD[row][column] == details["char"]:
+            HIT_SHIP = ship
+            break
     if HIT_SHIP:
         print(f"Computer hit your {HIT_SHIP}!\n")
+        PLAYERS_BOARD[row][column] = "X"
+        print_board(PLAYERS_BOARD)
     else:
         print("Computer missed!\n")
         PLAYERS_BOARD[row][column] = "-"
+        print_board(PLAYERS_BOARD)
+
+    print("\nYour turn!\n")
 
     if count_hit_ships(GUESS_BOARD) == 9:
         print(f"Congratulations, {name}! You won the game!\n")
-    elif count_hit_ships(PLAYERS_BOARD) == 9:
-        print(f"Game over! The computer won.\n")
+    else:
+        print(f"Sorry, {name}! You lost the game!\n")
