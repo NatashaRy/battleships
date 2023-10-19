@@ -168,7 +168,6 @@ def computer_guess(board):
     while board[row][column] == "X" or board[row][column] == "-":
         row, column = random.randint(0, 7), random.randint(0, 7)
 
-    print(row, column)
     return row, column
 
 
@@ -182,6 +181,18 @@ def count_hit_ships(board):
             if cell in [details["char"] for details in SHIPS.values()]:
                 count += 1
     return count
+
+def check_sunk_ships(board):
+    """
+    Checks if any ship has been sunk.
+    """
+    for ship, details in SHIPS.items():
+        count = sum(row.count(details["char"]) for row in board)
+        if count == 0 and details["char"] is not None:
+            print(f"You have sunk the computer's {ship} !\n")
+            details["char"] = None
+        
+        return count
 
 def main():
     """
@@ -207,8 +218,8 @@ def main():
         else:
             print("Miss!\n")
             GUESS_BOARD[row][column] = "X"
-        
-        if SHIPS
+
+        check_sunk_ships(HIDDEN_BOARD)
 
         computer_row, computer_column = computer_guess(PLAYERS_BOARD)
         HIT_SHIP = None
@@ -219,7 +230,7 @@ def main():
         if HIT_SHIP:
             PLAYERS_BOARD[computer_row][computer_column] = "X"
             print_board(PLAYERS_BOARD)
-            print(f"Computer hit your {HIT_SHIP}!")
+            print(f"Computer hit your {HIT_SHIP}!\n")
             
         else:
             PLAYERS_BOARD[computer_row][computer_column] = "-"
