@@ -183,24 +183,24 @@ def count_hit_ships(board):
     """
     Count the number of ships hit.
     """
-    count = 0
+    hit_count = 0
     for row in board:
         for cell in row:
             if cell in [details["char"] for details in SHIPS.values()]:
-                count += 1
-    return count
+                hit_count += 1
+    return hit_count
 
 def check_sunk_ships(board):
     """
     Checks if any ship has been sunk.
     """
     for ship, details in SHIPS.items():
-        count = sum(row.count(details["char"]) for row in board)
-        if count == 0 and details["char"] is not None:
+        ship_count = sum(row.count(details["char"]) for row in board)
+        if ship_count == 0 and details["char"] is not None:
             print(f"You have sunk the computer's {ship} !\n")
             details["char"] = None
-        
-        return count
+
+    return ship_countcount
 
 def main():
     """
@@ -247,13 +247,15 @@ def main():
             print("Computer missed!\n")
 
         if count_hit_ships(GUESS_BOARD) == 9:
-            print(f"Congratulations, {name}! You won the game!\n")
+            print(f"Congratulations, {name}! You won the game!")
+            print_board(GUESS_BOARD)
             break
-        elif count_hit_ships(PLAYERS_BOARD) == 12:
-            print(f"Sorry, {name}! You lost the game!\n")
+        elif count_hit_ships(PLAYERS_BOARD) == 9:
+            print(f"Sorry, {name}! You lost the game!")
+            print_board(PLAYERS_BOARD)
             break
 
-    restart = input("Do you want to play again? (y/n): \n").upper()
+    restart = input("Do you want to play again? (y/n): ").upper()
     if restart == "Y":
         reset_game()
         main()
