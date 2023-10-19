@@ -5,6 +5,14 @@ HIDDEN_BOARD = [[" "] * 8 for _ in range(8)]
 GUESS_BOARD = [[" "] * 8 for _ in range(8)]
 PLAYERS_BOARD = [[" "] * 8 for _ in range(8)]
 
+def reset_game():
+    """
+    Resets the game and let the game boards be modified.
+    """
+    HIDDEN_BOARD[:] = [[" "] * 8 for _ in range(8)]
+    GUESS_BOARD[:] = [[" "] * 8 for _ in range(8)]
+    PLAYERS_BOARD[:] = [[" "] * 8 for _ in range(8)]
+
 def print_board(board):
     """
     Printing the game boards.
@@ -20,7 +28,7 @@ def print_board(board):
 SHIPS = {
     "BATTLESHIP": {"size": 4, "char": "B", "position": None, "orientation": None},
     "SUBMARINE": {"size": 3, "char": "S", "position": None, "orientation": None},
-    "PATROL_BOAT": {"size": 2, "char": "P", "position": None, "orientation": None},
+    "PATROL BOAT": {"size": 2, "char": "P", "position": None, "orientation": None},
 }
 
 
@@ -243,6 +251,11 @@ def main():
         elif count_hit_ships(PLAYERS_BOARD) == 12:
             print(f"Sorry, {name}! You lost the game!\n")
             break
+
+    restart = input("Do you want to play again? (y/n): \n").upper()
+    if restart == "Y":
+        reset_game()
+        main()
 
 print("Welcome to Battleships!")
 name = input("What is your name: ")
