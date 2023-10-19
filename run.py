@@ -146,9 +146,7 @@ def players_guess():
 
     pattern = re.compile(r"^[A-Ha-h][1-8]$")
 
-    guess = (
-        input("Please enter your guess (e.g., 'A1'): ").upper().replace(" ", "")
-    )
+    guess = input("Please enter your guess (e.g., 'A1'): ").upper().replace(" ", "")
     while not pattern.match(guess):
         guess = (
             input("Invalid input. Please enter your guess (e.g., '1A', '2B'): ")
@@ -158,8 +156,9 @@ def players_guess():
 
     column = guess[0]
     row = guess[1]
-    
+
     return int(row) - 1, letters_to_numbers[column]
+
 
 def computer_guess(board):
     """
@@ -211,7 +210,7 @@ while True:
         print("Miss!\n")
         GUESS_BOARD[row][column] = "X"
 
-    computer_guess(PLAYERS_BOARD)   
+    computer_guess(PLAYERS_BOARD)
     HIT_SHIP = None
     for ship, details in SHIPS.items():
         if PLAYERS_BOARD[row][column] == details["char"]:
