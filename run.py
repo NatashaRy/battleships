@@ -214,6 +214,7 @@ def main():
         row, column = players_guess()
         if GUESS_BOARD[row][column] == "X":
             print("You already guessed that, try again.\n")
+            continue
         else:
             HIT_SHIP = None
             for ship, details in SHIPS.items():
