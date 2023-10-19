@@ -24,6 +24,7 @@ SHIPS = {
     "PATROL_BOAT": {"size": 2, "char": "P", "position": None, "orientation": None},
 }
 
+
 def create_computer_ships(board):
     """
     Create computer's ships on board randomly, placement marked with ships character.
@@ -57,9 +58,11 @@ def create_computer_ships(board):
                         board[ship_row + i][ship_column] = ship_char
                     placed = True
 
+
 def place_players_ships(board):
     """
     Let player place their ships on board, by choosing starting position and orientation.
+    Limit player to only enter specific format for guess (e.g., '1A', '2B').
     Placement marked with ships character.
     """
     for ship, details in SHIPS.items():
@@ -69,36 +72,35 @@ def place_players_ships(board):
         placed = False
         while not placed:
             print_board(board)
-            print(f"\nPlacing a '{ship}' of size {ship_size} on the board.\n")
-
-            pattern = re.compile(r"^[1-8][A-Ha-h]$")
+            print(f"\nPlacing a '{ship}' of size {ship_size} on the board.")
 
             position = input(
                 f"Please enter starting position for {ship} (e.g., A1): "
             ).upper()
-            while not pattern.match(position):
-                position = (
-                    input("Invalid input. Please enter your guess (e.g., '1A', '2B'): ")
-                    .upper()
-                    .replace(" ", "")
-                )
-                print("Invalid position. Please use the format 'A1', 'C3', etc.")
-                continue
-
             orientation = input(
-            "Enter orientation (H for horizontal, V for vertical): "
+                "Enter orientation (H for horizontal, V for vertical): "
             ).upper()
-            while not input("H" or "V").upper() == orientation:
-                input = ("Invalid orientation. Please use 'H' or 'V': ").upper()
+
+            if (
+                len(position) < 2
+                or position[0] not in "ABCDEFGH"
+                or not position[1:].isdigit()
+            ):
+                print("Invalid position. Please use the format 'A1', 'C3' etc.")
                 continue
 
             column = ord(position[0]) - ord("A")
             row = int(position[1:]) - 1
 
+            if orientation not in ["H", "V"]:
+                print("Invalid orientation. Choose 'H' or 'V'.")
+                continue
+
             if (orientation == "H" and column + ship_size > 8) or (
                 orientation == "V" and row + ship_size > 8
             ):
-                print("Ship placement out of bounds.")
+                print("\nShip placement out of bounds, try again.\n")
+                continue
 
             if orientation == "H":
                 if all(
@@ -119,8 +121,9 @@ def place_players_ships(board):
 
             if placed:
                 print(f"{ship} placed on the board.\n")
+    print_board(PLAYERS_BOARD)
+    print("All ships have been successfully placed!\n")
 
-    print("All ships have been successfully placed!")
 
 def players_guess():
     """
@@ -142,10 +145,10 @@ def players_guess():
         "H": 7,
     }
 
-    pattern = re.compile(r"^[1-8][A-Ha-h]$")
+    pattern = re.compile(r"^[A-Ha-h][1-8]$")
 
     guess = (
-        input("Please enter your guess (e.g., '1A', '2B'): ").upper().replace(" ", "")
+        input("Please enter your guess (e.g., 'A1'): ").upper().replace(" ", "")
     )
     while not pattern.match(guess):
         guess = (
@@ -154,19 +157,22 @@ def players_guess():
             .replace(" ", "")
         )
 
-    row = guess[0] 
-    column = guess[1]
-
+    column = guess[0]
+    row = guess[1]
+    
     return int(row) - 1, letters_to_numbers[column]
 
 
 def count_hit_ships(board):
-    ""
+    """
+    Count the number of ships hit by player.
+    """
     count = 0
     for row in board:
         for cell in row:
             if cell in [details["char"] for details in SHIPS.values()]:
                 count += 1
+
 
 print("Welcome to Battleships!")
 name = input("What is your name: ")
@@ -188,10 +194,12 @@ while True:
             if HIDDEN_BOARD[row][column] == details["char"]:
                 HIT_SHIP = ship
                 break
-
     if HIT_SHIP:
-        print(f"You hit the {HIT_SHIP}!")
+        print(f"You hit the {HIT_SHIP}!\n")
         GUESS_BOARD[row][column] = HIDDEN_BOARD[row][column]
     else:
         print("Miss!\n")
         GUESS_BOARD[row][column] = "X"
+    if count_hit_ships(GUESS_BOARD) == 9:
+        print(f"Congratulations, {name}! You won the game!\n")
+        break
