@@ -172,6 +172,7 @@ def count_hit_ships(board):
         for cell in row:
             if cell in [details["char"] for details in SHIPS.values()]:
                 count += 1
+    return count
 
 
 print("Welcome to Battleships!")
@@ -200,6 +201,7 @@ while True:
     else:
         print("Miss!\n")
         GUESS_BOARD[row][column] = "X"
+
     if count_hit_ships(GUESS_BOARD) == 9:
         print(f"Congratulations, {name}! You won the game!\n")
         break
