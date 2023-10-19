@@ -135,7 +135,6 @@ We have tested the game simultaneously througout development. Every function has
     * Resolution - To fix this we changed the order of the valid pattern, so the letter would come first and the number after instead of the opposite that it was from the start.
  
 
-
 2. **Computers guess**
     * Issue - When adding the function to make the computer guess the placement of the players ships we realised that the computer only was checking the location of the players guess on the `HIDDEN_BOARD`, not actually guessing the the location of the playes ships on the `PLAYERS_BOARD`.
     * Resolution: We change `row` and `column` to `computer_row` and `computer_column` when calling the `computer_guess` function to capture the values of the computer's guess and update the `PLAYERS_BOARD` accordingly.
@@ -148,7 +147,7 @@ We have tested the game simultaneously througout development. Every function has
 
 4. **Reuse of `count` variable**
     * Issue - When adding the `check_sunk_ships` function we used the `count` variable to count the characters on the board. Earlier we had used the `count` variable for the `count_hit_ships` function. When testing the `check_sunk_ships` function we realised that the behaviour of the `count_hit_ships` function had changed and the computer would win after making the first guess.
-    * Resolution - By changing the variables to `hit_count` and `ship_count` , which made them unique the problem was solved and both functions worked as expected.
+    * Resolution - By changing the variables to `hit_count` and `ship_count` , which made them unique and not returning the value of `check_sunk_ships` function solved the problem.
 
 ​
 ***
