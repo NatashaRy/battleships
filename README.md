@@ -111,7 +111,10 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     * Check that the input is in correct format e.g. 'A1'
     * Player or computer can not make the same guess twice
     * Ships can not be placed outside of the board
-    
+
+* Play again och quit
+    * Player can choose to play again
+    * Game restarts automatically where player place ships
 
 ### **Existing features**
 
