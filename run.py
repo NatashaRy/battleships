@@ -66,7 +66,6 @@ def create_computer_ships(board):
                         board[ship_row + i][ship_column] = ship_char
                     placed = True
 
-
 def place_players_ships(board):
     """
     Let player place their ships on board, by choosing starting position and orientation.
@@ -139,7 +138,7 @@ def players_guess():
     Limit player to only enter specific format for guess (e.g., '1A', '2B').
     Returns row and column of location of input.
     """
-    print(HIDDEN_BOARD)
+    # print(HIDDEN_BOARD)
 
     letters_to_numbers = {
         "A": 0,
@@ -213,33 +212,40 @@ def main():
             print("You already guessed that, try again.\n")
             continue
         else:
-            HIT_SHIP = None
+            hit_ship = None
             for ship, details in SHIPS.items():
                 if HIDDEN_BOARD[row][column] == details["char"]:
-                    HIT_SHIP = ship
+                    hit_ship = ship
                     break
-        if HIT_SHIP:
-            print(f"You hit the {HIT_SHIP}!\n")
+        if hit_ship:
+            print(f"You hit the {hit_ship}!\n")
             GUESS_BOARD[row][column] = HIDDEN_BOARD[row][column]
         else:
             print("Miss!\n")
             GUESS_BOARD[row][column] = "X"
 
         computer_row, computer_column = computer_guess(PLAYERS_BOARD)
-        HIT_SHIP = None
+        hit_ship = None
         for ship, details in SHIPS.items():
             if PLAYERS_BOARD[computer_row][computer_column] == details["char"]:
-                HIT_SHIP = ship
+                hit_ship = ship
                 break
-        if HIT_SHIP:
+        if hit_ship:
             PLAYERS_BOARD[computer_row][computer_column] = "X"
             print_board(PLAYERS_BOARD)
-            print(f"Computer hit your {HIT_SHIP}!\n")
+            print(f"Computer hit your {hit_ship}!\n")
 
         else:
             PLAYERS_BOARD[computer_row][computer_column] = "-"
             print_board(PLAYERS_BOARD)
             print("Computer missed!\n")
+
+        if count_hit_ships(GUESS_BOARD) == 9:
+            print(f"Congratulations {name}, you won!")
+            break
+        elif count_hit_ships(PLAYERS_BOARD) == 9:
+            print(f"Sorry {name}, you lost and the computer won!")
+            break
 
     restart = input("Do you want to play again? (y/n): \n").upper()
     if restart == "Y":
