@@ -188,7 +188,6 @@ def main():
     Run all game functions
     """
     place_players_ships(PLAYERS_BOARD)
-    char_to_ship = {details["char"]: ship for ship, details in SHIPS.items()}
 
     create_computer_ships(HIDDEN_BOARD)
     while True:
@@ -208,6 +207,8 @@ def main():
         else:
             print("Miss!\n")
             GUESS_BOARD[row][column] = "X"
+        
+        if SHIPS
 
         computer_row, computer_column = computer_guess(PLAYERS_BOARD)
         HIT_SHIP = None
@@ -216,15 +217,14 @@ def main():
                 HIT_SHIP = ship
                 break
         if HIT_SHIP:
-            print(f"Computer hit your {HIT_SHIP}!\n")
             PLAYERS_BOARD[computer_row][computer_column] = "X"
             print_board(PLAYERS_BOARD)
+            print(f"Computer hit your {HIT_SHIP}!")
+            
         else:
-            print("Computer missed!\n")
             PLAYERS_BOARD[computer_row][computer_column] = "-"
             print_board(PLAYERS_BOARD)
-
-        print("\nYour turn!")
+            print("Computer missed!\n")
 
         if count_hit_ships(GUESS_BOARD) == 9:
             print(f"Congratulations, {name}! You won the game!\n")
@@ -237,3 +237,4 @@ print("Welcome to Battleships!")
 name = input("What is your name: ")
 while not name.isalpha():
     name = input("Enter your name (letter only): ")
+main()
