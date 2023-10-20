@@ -13,7 +13,8 @@ def reset_game():
     HIDDEN_BOARD[:] = [["_"] * 8 for _ in range(8)]
     GUESS_BOARD[:] = [["_"] * 8 for _ in range(8)]
     PLAYERS_BOARD[:] = [["_"] * 8 for _ in range(8)]
-
+    for ship, details in SHIPS.items():
+        details["sunk"] = False
 
 def print_board(board):
     """
@@ -28,9 +29,9 @@ def print_board(board):
 
 
 SHIPS = {
-    "Battlehip": {"size": 4, "char": "B", "position": None, "orientation": None},
-    "Submarine": {"size": 3, "char": "S", "position": None, "orientation": None},
-    "Patrol boat": {"size": 2, "char": "P", "position": None, "orientation": None},
+    "Battlehip": {"size": 4, "char": "B", "position": None, "orientation": None, "sunk": False},
+    "Submarine": {"size": 3, "char": "S", "position": None, "orientation": None, "sunk": False},
+    "Patrol boat": {"size": 2, "char": "P", "position": None, "orientation": None, "sunk": False},
 }
 
 def create_computer_ships(board):
@@ -138,7 +139,7 @@ def players_guess():
     Limit player to only enter specific format for guess (e.g., '1A', '2B').
     Returns row and column of location of input.
     """
-    # print(HIDDEN_BOARD)
+    print(HIDDEN_BOARD)
 
     letters_to_numbers = {
         "A": 0,
@@ -177,36 +178,38 @@ def computer_guess(board):
 
     return row, column
 
-def count_hit_ships(board):
-    """
-    Count the number of ships hit.
-    """
-    hit_count = 0
-    for row in board:
-        for cell in row:
-            if cell in [details["char"] for details in SHIPS.values()]:
-                hit_count += 1
-    return hit_count
-
 def count_char_on_board(board, char):
     """
     Count the occurrences of a character on a board.
     """
     return sum(row.count(char) for row in board)
 
+
+def check_ship_sunk(board, is_player=True):
+    """
+    Check if any ship has been sunk on the given board, both for the player and computer.
+    Returns the name of the sunk ship or None if no ship was sunk.
+    """
+    for ship, details in SHIPS.items():
+        char_count = count_char_on_board(board, details["char"])
+        if char_count == details["size"] and not details["sunk"]:
+            details["sunk"] = True
+            if is_player:
+                return ship
+            else:
+                return ship
+    return None
+
 def main():
     """
-    Run all game functions
+    Run all game functions.
     """
+    sunk_ship_for_round = None
     place_players_ships(PLAYERS_BOARD)
 
     create_computer_ships(HIDDEN_BOARD)
     while True:
         print_board(GUESS_BOARD)
-        for ship, details in SHIPS.items():
-            char_count = count_char_on_board(GUESS_BOARD, details["char"])
-            if char_count == details["size"]:
-                print(f"You have sunk the computer's {ship}!")
         row, column = players_guess()
         if GUESS_BOARD[row][column] == "X":
             print("You already guessed that, try again.\n")
@@ -218,8 +221,11 @@ def main():
                     hit_ship = ship
                     break
         if hit_ship:
-            print(f"You hit the {hit_ship}!\n")
             GUESS_BOARD[row][column] = HIDDEN_BOARD[row][column]
+            print(f"You hit the {hit_ship}!\n")
+            sunk_ship_by_player = check_ship_sunk(GUESS_BOARD, is_player = True)
+            if sunk_ship_by_player:
+                print(f"You have sunk the computer's {sunk_ship_by_player}!\n")              
         else:
             print("Miss!\n")
             GUESS_BOARD[row][column] = "X"
@@ -234,18 +240,13 @@ def main():
             PLAYERS_BOARD[computer_row][computer_column] = "X"
             print_board(PLAYERS_BOARD)
             print(f"Computer hit your {hit_ship}!\n")
-
+            sunk_ship_by_computer = check_ship_sunk(PLAYERS_BOARD, is_player=False)
+            if sunk_ship_by_computer:
+                print(f"Computer has sunk your {sunk_ship_by_computer}!")                
         else:
             PLAYERS_BOARD[computer_row][computer_column] = "-"
             print_board(PLAYERS_BOARD)
             print("Computer missed!\n")
-
-        if count_hit_ships(GUESS_BOARD) == 9:
-            print(f"Congratulations {name}, you won!")
-            break
-        elif count_hit_ships(PLAYERS_BOARD) == 9:
-            print(f"Sorry {name}, you lost and the computer won!")
-            break
 
     restart = input("Do you want to play again? (y/n): \n").upper()
     if restart == "Y":
