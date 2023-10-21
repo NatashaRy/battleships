@@ -217,9 +217,10 @@ def check_ship_sunk_player(board):
     """
     for ship, details in SHIPS.items():
         char_count = count_char_on_board(board, details["char"])
-        if char_count == 0 and not details["sunk"]:
+        if char_count == details["size"] and not details["sunk"]:
             details["sunk"] = True
-            return ship
+            if details["sunk"]:
+                return ship
 
 def players_turn():
     """
@@ -273,9 +274,6 @@ def computers_turn():
         PLAYERS_BOARD[computer_row][computer_column] = "-"
         print_board(PLAYERS_BOARD)
         print("Computer missed!\n")
-
-
-
 
 def main():
     """
