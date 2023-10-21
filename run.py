@@ -172,7 +172,7 @@ def players_guess():
     Limit player to only enter specific format for guess (e.g., '1A', '2B').
     Returns row and column of location of input.
     """
-    print(HIDDEN_BOARD)
+    print(HIDDEN_BOARD)             # REMOVE!
 
     letters_to_numbers = {
         "A": 0,
@@ -240,11 +240,12 @@ def players_turn():
                 print(f"You hit the {hit_ship}!\n")
                 hits_player[hit_ship] += 1
 
-                if hits_player[hit_ship] == SHIPS[hit_ship]["size"] and not SHIPS[hit_ship]["sunk"]:
-                    SHIPS[hit_ship]["sunk"] = True
-                    player_sunk_count += 1
-                    print(player_sunk_count)
-                    print(f"You have sunk the computers {hit_ship}!\n")
+                for ship, details in SHIPS.items():
+                    if hits_player[ship] == details["size"] and not details["sunk"]:
+                        details["sunk"] = True
+                        player_sunk_count += 1
+                        print(player_sunk_count)                       # REMOVE!!!!!!!
+                        print(f"You have sunk the computers {ship}!\n")
             else:
                 print("Miss!\n")
                 GUESS_BOARD[row][column] = "X"
@@ -272,18 +273,19 @@ def computers_turn():
         PLAYERS_BOARD[computer_row][computer_column] = "X"
         print_board(PLAYERS_BOARD)
         print(f"Computer hit your {hit_ship}!\n")
-
         hits_computer[hit_ship] += 1
 
-        if hits_computer[hit_ship] == SHIPS[hit_ship]["size"] and not SHIPS[hit_ship]["sunk"]:
-            SHIPS[hit_ship]["sunk"] = True
-            computer_sunk_count += 1
-            print(computer_sunk_count)
-            print(f"The computer has sunk your {hit_ship}!\n")
+        for ship, details in SHIPS.items():
+            if hits_computer[ship] == details["size"] and not details["sunk"]:
+                details["sunk"] = True
+                computer_sunk_count += 1
+                print(computer_sunk_count)                       # REMOVE!!!!!!!
+                print(f"The computer has sunk your {ship}!\n")
     else:
         PLAYERS_BOARD[computer_row][computer_column] = "-"
         print_board(PLAYERS_BOARD)
         print("Computer missed!\n")
+
 
 
 def main():
