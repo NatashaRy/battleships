@@ -19,6 +19,8 @@ def reset_game():
     computer_sunk_count[:] = 0
     for ship, details in SHIPS.items():
         details["sunk"] = False
+    for ship in hits:
+        hits[ship] = 0
 
 
 def print_board(board):
@@ -34,7 +36,7 @@ def print_board(board):
 
 
 SHIPS = {
-    "Battlehip": {
+    "Battleship": {
         "size": 4,
         "char": "B",
         "position": None,
@@ -107,27 +109,31 @@ def place_players_ships(board):
             print_board(board)
             print(f"\nPlacing a '{ship}' of size {ship_size} on the board.")
 
-            position = input(
-                f"Please enter starting position for {ship} (e.g., A1): "
-            ).upper()
-            if (
-                len(position) < 2
-                or position[0] not in "ABCDEFGH"
-                or not position[1:].isdigit()
-            ):
-                print("Invalid position. Please use the format 'A1', 'C3' etc.")
-                continue
-
-            orientation = input(
-                "Enter orientation (H for horizontal, V for vertical): "
-            ).upper()
+            while True:
+                position = input(
+                    f"Please enter starting position for {ship} (e.g., A1): "
+                ).upper()
+                if (
+                    len(position) < 2
+                    or position[0] not in "ABCDEFGH"
+                    or not position[1:].isdigit()
+                ):
+                    print("Invalid position. Please use the format 'A1', 'C3' etc.")
+                else:
+                    break
 
             column = ord(position[0]) - ord("A")
             row = int(position[1:]) - 1
 
-            if orientation not in ["H", "V"]:
-                print("Invalid orientation. Choose 'H' or 'V'.")
-                continue
+            while True:
+                orientation = input(
+                    "Enter orientation (H for horizontal, V for vertical): "
+                ).upper()
+
+                if orientation not in ["H", "V"]:
+                    print("Invalid orientation. Choose 'H' or 'V'.")
+                else:
+                    break
 
             if (orientation == "H" and column + ship_size > 8) or (
                 orientation == "V" and row + ship_size > 8
@@ -210,6 +216,7 @@ def count_char_on_board(board, char):
     """
     return sum(row.count(char) for row in board)
 
+
 def check_ship_sunk_player(board):
     """
     Check if the player have sunk any ships on the given board.
@@ -221,6 +228,7 @@ def check_ship_sunk_player(board):
             details["sunk"] = True
             if details["sunk"]:
                 return ship
+
 
 def players_turn():
     """
@@ -252,7 +260,13 @@ def players_turn():
     if sunk_ship_by_player:
         print(f"You have sunk the computer's {sunk_ship_by_player}!\n")
         player_sunk_count += 1
-    return player_sunk_count
+        print(player_sunk_count)
+
+hits = {
+    "Battleship": 0,
+    "Submarine": 0,
+    "Patrol boat": 0,
+}
 
 
 def computers_turn():
@@ -270,10 +284,19 @@ def computers_turn():
         PLAYERS_BOARD[computer_row][computer_column] = "X"
         print_board(PLAYERS_BOARD)
         print(f"Computer hit your {hit_ship}!\n")
+
+        hits[hit_ship] += 1
+
+        if hits[hit_ship] == SHIPS[hit_ship]["size"] and not SHIPS[hit_ship]["sunk"]:
+            SHIPS[hit_ship]["sunk"] = True
+            computer_sunk_count += 1
+            print(computer_sunk_count)
+            print(f"The computer has sunk your {hit_ship}!\n")
     else:
         PLAYERS_BOARD[computer_row][computer_column] = "-"
         print_board(PLAYERS_BOARD)
         print("Computer missed!\n")
+
 
 def main():
     """
