@@ -240,12 +240,11 @@ def players_turn():
                 print(f"You hit the {hit_ship}!\n")
                 hits_player[hit_ship] += 1
 
-                for ship, details in SHIPS.items():
-                    if hits_player[ship] == details["size"] and not details["sunk"]:
-                        details["sunk"] = True
-                        player_sunk_count += 1
-                        print(player_sunk_count)                       # REMOVE!!!!!!!
-                        print(f"You have sunk the computers {ship}!\n")
+                if hits_player[hit_ship] == SHIPS[hit_ship]["size"] and not SHIPS[hit_ship]["sunk"]:
+                    SHIPS[hit_ship]["sunk"] = True
+                    player_sunk_count += 1
+                    print(player_sunk_count)                    # REMOVE!!!!!!!!!!
+                    print(f"You have sunk the computers {hit_ship}!\n")
             else:
                 print("Miss!\n")
                 GUESS_BOARD[row][column] = "X"
@@ -256,7 +255,6 @@ hits_computer = {
     "Submarine": 0,
     "Patrol boat": 0,
 }
-
 
 def computers_turn():
     """
@@ -275,18 +273,14 @@ def computers_turn():
         print(f"Computer hit your {hit_ship}!\n")
         hits_computer[hit_ship] += 1
 
-        for ship, details in SHIPS.items():
-            if hits_computer[ship] == details["size"] and not details["sunk"]:
-                details["sunk"] = True
-                computer_sunk_count += 1
-                print(computer_sunk_count)                       # REMOVE!!!!!!!
-                print(f"The computer has sunk your {ship}!\n")
+        if hits_computer[hit_ship] == SHIPS[hit_ship]["size"]:
+            computer_sunk_count += 1
+            print(computer_sunk_count)                    # REMOVE!!!!!!!!!!
+            print(f"The computer has sunk your {hit_ship}!\n")
     else:
         PLAYERS_BOARD[computer_row][computer_column] = "-"
         print_board(PLAYERS_BOARD)
         print("Computer missed!\n")
-
-
 
 def main():
     """
