@@ -122,12 +122,14 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ​
 ### **Future-Enhancements**
 ​
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+* Scoreboard.
+* Choose size of board and number of ships.
+* Limited turns and timer.
 ​
 ## **Testing Phase**
 We have tested the game simultaneously througout development. Every function has been tested independently aswell when running the program. This to make sure that the functionality is working correctly as expected.
 ​
-​
+
 ### **Bugs**
 #### **During development**
 1. **Input of row and column**
@@ -145,9 +147,15 @@ We have tested the game simultaneously througout development. Every function has
     * Resolution - By adding a `continue` statement we ensure the player would get a new try before the computer made its guess.
  
 
-4. **Reuse of `count` variable**
-    * Issue - When adding the `check_sunk_ships` function we used the `count` variable to count the characters on the board. Earlier we had used the `count` variable for the `count_hit_ships` function. When testing the `check_sunk_ships` function we realised that the behaviour of the `count_hit_ships` function had changed and the computer would win after making the first guess.
-    * Resolution - By changing the variables to `hit_count` and `ship_count` , which made them unique and not returning the value of `check_sunk_ships` function solved the problem.
+4. **Count sunk ships and print what ship have been sunk**
+    During development we got encountered with several issues when trying to count the sunken ships before we could find a solution that fitted our needs and wishes. The main problem was that the counter for the player would interfere with the counter for computer, and vice versa.
+
+    * Issues
+        - The computer won after making it's first move.
+        - The counter would only count each ship one time per a round e.g. if the player sunk the computers Battleship, it would not be counted when the computer would sink the players Battleship and so on.
+        - When counting the characters of the ships compared to size the computes ships would not be counted accuratly. 
+        - When adding counting "X" to the function, since the computers hits become "X" on the `char`, the players ships would not be counted accurately.
+    * Resolution - 
 
 ​
 ***
