@@ -172,7 +172,7 @@ def players_guess():
     Limit player to only enter specific format for guess (e.g., '1A', '2B').
     Returns row and column of location of input.
     """
-    print(HIDDEN_BOARD)             # REMOVE!
+    print(HIDDEN_BOARD)                                           # REMOVE!
 
     letters_to_numbers = {
         "A": 0,
@@ -243,7 +243,7 @@ def players_turn():
                 if hits_player[hit_ship] == SHIPS[hit_ship]["size"] and not SHIPS[hit_ship]["sunk"]:
                     SHIPS[hit_ship]["sunk"] = True
                     player_sunk_count += 1
-                    print(player_sunk_count)                    # REMOVE!!!!!!!!!!
+                    print(player_sunk_count)                                          # REMOVE!!!!!!!!!!
                     print(f"You have sunk the computers {hit_ship}!\n")
             else:
                 print("Miss!\n")
@@ -275,7 +275,7 @@ def computers_turn():
 
         if hits_computer[hit_ship] == SHIPS[hit_ship]["size"]:
             computer_sunk_count += 1
-            print(computer_sunk_count)                    # REMOVE!!!!!!!!!!
+            print(computer_sunk_count)                                               # REMOVE!!!!!!!!!!
             print(f"The computer has sunk your {hit_ship}!\n")
     else:
         PLAYERS_BOARD[computer_row][computer_column] = "-"
