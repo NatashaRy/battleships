@@ -1,3 +1,12 @@
+"""
+Legend:
+PLAYERS_BOARD - Where the computer guesses.
+Ships are marked with the first character of the ships name, hit is marked with 'X' and miss with '-'.
+
+GUESS_BOARD - Where the player guesses.
+Hits are marked with the first character of the ship's name, misses are marked with 'X'.
+"""
+
 import random
 import re
 import sys
@@ -29,7 +38,7 @@ def reset_game():
 def print_board(board):
     """
     Printing the game boards.
-    A-H as a headlines for columns and 1-8 marking the row numbers.
+    A-H has headlines for columns and 1-8 marking the row numbers.
     """
     print("  A B C D E F G H")
     row_num = 1
@@ -65,7 +74,7 @@ SHIPS = {
 
 def create_computer_ships(board):
     """
-    Create computer's ships on board randomly, placement marked with ships character.
+    Create computer's ships on board randomly, placement marked with the ship's character.
     Checks the size of the ship to verify that placement is valid.
     """
     for ship, details in SHIPS.items():
@@ -99,9 +108,9 @@ def create_computer_ships(board):
 
 def place_players_ships(board):
     """
-    Let player place their ships on board, by choosing starting position and orientation.
-    Limit player to only enter specific format for guess (e.g., '1A', '2B').
-    Placement marked with ships character.
+    Let players place their ships on board, by choosing starting position and orientation.
+    Limit players to only enter specific format for guesses (e.g., '1A', '2B').
+    Placement marked with the ship's character.
     """
     for ship, details in SHIPS.items():
         ship_char = details["char"]
@@ -170,9 +179,10 @@ def place_players_ships(board):
 def players_guess():
     """
     Convert letters to numbers, get location of ships.
-    Limit player to only enter specific format for guess (e.g., '1A', '2B').
+    Limit players to only enter specific formats for guesses (e.g., '1A', '2B').
     Returns row and column of location of input.
     """
+
     letters_to_numbers = {
         "A": 0,
         "B": 1,
@@ -207,8 +217,8 @@ computer_next_guess = ["up", "down", "left", "right"]
 def computer_guess(board):
     """
     Let the computer randomly guess the placement of the player's ships.
-    Checkes if the cell has been guessed or missed before.
-    If the last move was a hit, next move will be in the same area.
+    Checks if the cell has been guessed or missed before.
+    If the last move was a hit, the next move will be in the same area.
     """
     global COMPUTER_LAST_HIT, computer_next_guess
 
@@ -246,7 +256,7 @@ hits_player = {
 def players_turn():
     """
     Players game logic.
-    Check if the playes guess have been guess before.
+    Check if the player guess has been guessed before.
     Check if any ship is hit/sunk or if the player misses.
     """
     global PLAYER_SUNK_COUNT
