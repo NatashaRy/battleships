@@ -10,6 +10,7 @@ Hits are marked with the first character of the ship's name, misses are marked w
 import random
 import re
 import sys
+import os
 
 HIDDEN_BOARD = [["_"] * 8 for _ in range(8)]
 GUESS_BOARD = [["_"] * 8 for _ in range(8)]
@@ -341,7 +342,7 @@ def main():
 
         computers_turn()
         if COMPUTER_SUNK_COUNT == 3:
-            print(f"Sorry {name}, the computer one!")
+            print(f"Sorry {name}, the computer won!")
             break
 
     restart = input("Do you want to play again? (y/n): ").upper()
@@ -350,11 +351,19 @@ def main():
         main()
     else:
         print(f"Thanks for playing {name}, goodbye!")
-        sys.exit()
+        exit()
 
 
-print("Welcome to Battleships!")
+print("""
+██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗ ███████╗
+██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗██╔════╝
+██████╔╝███████║   ██║      ██║   ██║     █████╗  ███████╗███████║██║██████╔╝███████╗
+██╔══██╗██╔══██║   ██║      ██║   ██║     ██╔══╝  ╚════██║██╔══██║██║██╔═══╝ ╚════██║
+██████╔╝██║  ██║   ██║      ██║   ███████╗███████╗███████║██║  ██║██║██║     ███████║
+╚═════╝ ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝     ╚══════╝
+""")
 name = input("What is your name: ")
 while not name.isalpha():
     name = input("Enter your name (letter only): ")
+os.system("cls||clear")
 main()
