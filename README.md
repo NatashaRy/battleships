@@ -155,7 +155,7 @@ We have tested the game simultaneously througout development. Every function has
         - The counter would only count each ship one time per a round e.g. if the player sunk the computers Battleship, it would not be counted when the computer would sink the players Battleship and so on.
         - When counting the characters of the ships compared to size the computes ships would not be counted accuratly. 
         - When adding counting "X" to the function, since the computers hits become "X" on the `char`, the players ships would not be counted accurately.
-    * Resolution - 
+    * Resolution - By not refactoring the function and moving the separate logic into the players and computers turn logic, the problem was solved and behaves as expected.
 
 ​
 ***
