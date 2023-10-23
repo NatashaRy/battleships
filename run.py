@@ -1,5 +1,6 @@
 import random
 import re
+import sys
 
 HIDDEN_BOARD = [["_"] * 8 for _ in range(8)]
 GUESS_BOARD = [["_"] * 8 for _ in range(8)]
@@ -337,6 +338,9 @@ def main():
     if restart == "Y":
         reset_game()
         main()
+    else: 
+        print(f"Thanks for playing {name}, goodbye!")
+        sys.exit()
 
 
 print("Welcome to Battleships!")
