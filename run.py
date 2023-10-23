@@ -11,6 +11,7 @@ import random
 import re
 import sys
 import os
+import time
 
 HIDDEN_BOARD = [["_"] * 8 for _ in range(8)]
 GUESS_BOARD = [["_"] * 8 for _ in range(8)]
@@ -175,7 +176,7 @@ def place_players_ships(board):
                 print(f"{ship} placed on the board.\n")
     print_board(PLAYERS_BOARD)
     print("All ships have been successfully placed!\n")
-
+    os.system("cls||clear")
 
 def players_guess():
     """
@@ -241,7 +242,7 @@ def computer_guess(board):
         computer_next_guess = ["up", "down", "left", "right"]
 
     column, row = random.randint(0, 7), random.randint(0, 7)
-    while board[row][column] == "X" or board[row][column] == "-":
+    while board[row][column] == "X" or board[row][column] == "*":
         row, column = random.randint(0, 7), random.randint(0, 7)
         print(row, column)
     return row, column
@@ -262,6 +263,7 @@ def players_turn():
     """
     global PLAYER_SUNK_COUNT
     print_board(GUESS_BOARD)
+    ship_chars = [details["char"] for details in SHIPS.values()]
 
     while True:
         row, column = players_guess()
@@ -323,7 +325,7 @@ def computers_turn():
         else:
             COMPUTER_LAST_HIT = (computer_row, computer_column)
     else:
-        PLAYERS_BOARD[computer_row][computer_column] = "-"
+        PLAYERS_BOARD[computer_row][computer_column] = "*"
         print_board(PLAYERS_BOARD)
         print("Computer missed!\n")
 
@@ -332,17 +334,35 @@ def main():
     """
     Run all game functions.
     """
-    place_players_ships(PLAYERS_BOARD)
     create_computer_ships(HIDDEN_BOARD)
+    place_players_ships(PLAYERS_BOARD)
     while True:
+        time.sleep(1.2)
         players_turn()
         if PLAYER_SUNK_COUNT == 3:
-            print(f"Congratulations {name}, you won!")
+            print(f"Congratulations {name}!")
+            print("""
+██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗ ██████╗ ███╗   ██╗██╗       ██╗ 
+╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██╔═══██╗████╗  ██║██║    ██╗╚██╗
+ ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║   ██║██╔██╗ ██║██║    ╚═╝ ██║
+  ╚██╔╝  ██║   ██║██║   ██║    ██║███╗██║██║   ██║██║╚██╗██║╚═╝    ██╗ ██║
+   ██║   ╚██████╔╝╚██████╔╝    ╚███╔███╔╝╚██████╔╝██║ ╚████║██╗    ╚═╝██╔╝
+   ╚═╝    ╚═════╝  ╚═════╝      ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝       ╚═╝                                    
+                """)
             break
+        time.sleep(1)
 
         computers_turn()
         if COMPUTER_SUNK_COUNT == 3:
             print(f"Sorry {name}, the computer won!")
+            print("""
+                ██╗   ██╗ ██████╗ ██╗   ██╗    ██╗      ██████╗ ███████╗████████╗██╗        ██╗
+                ╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║     ██╔═══██╗██╔════╝╚══██╔══╝██║    ██╗██╔╝
+                 ╚████╔╝ ██║   ██║██║   ██║    ██║     ██║   ██║███████╗   ██║   ██║    ╚═╝██║ 
+                  ╚██╔╝  ██║   ██║██║   ██║    ██║     ██║   ██║╚════██║   ██║   ╚═╝    ██╗██║ 
+                   ██║   ╚██████╔╝╚██████╔╝    ███████╗╚██████╔╝███████║   ██║   ██╗    ╚═╝╚██╗
+                   ╚═╝    ╚═════╝  ╚═════╝     ╚══════╝ ╚═════╝ ╚══════╝   ╚═╝   ╚═╝        ╚═╝                                                                      
+                """)
             break
 
     restart = input("Do you want to play again? (y/n): ").upper()
