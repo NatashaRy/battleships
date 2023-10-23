@@ -218,16 +218,12 @@ def computer_guess(board):
             direction = random.choice(computer_next_guess)
             computer_next_guess.remove(direction)
             if direction == "up" and row > 0 and board[row - 1][column] == "_":
-                print(row, column)
                 return row - 1, column
             elif direction == "down" and row < 7 and board[row + 1][column] == "_":
-                print(row, column)
                 return row + 1, column
             elif direction == "left" and column > 0 and board[row][column - 1] == "_":
-                print(row, column)
                 return row, column - 1
             elif direction == "right" and column < 7 and board[row][column + 1] == "_":
-                print(row, column)
                 return row, column + 1
 
         COMPUTER_LAST_HIT = None
