@@ -5,20 +5,19 @@ import sys
 HIDDEN_BOARD = [["_"] * 8 for _ in range(8)]
 GUESS_BOARD = [["_"] * 8 for _ in range(8)]
 PLAYERS_BOARD = [["_"] * 8 for _ in range(8)]
-player_sunk_count = 0
-computer_sunk_count = 0
-
+PLAYER_SUNK_COUNT = 0
+COMPUTER_SUNK_COUNT = 0
 
 def reset_game():
     """
     Resets the game and let the game boards be modified.
     """
-    global player_sunk_count, computer_sunk_count, computer_last_hit, computer_next_hit
+    global PLAYER_SUNK_COUNT, COMPUTER_SUNK_COUNT, COMPUTER_LAST_HIT, computer_next_guess
     HIDDEN_BOARD[:] = [["_"] * 8 for _ in range(8)]
     GUESS_BOARD[:] = [["_"] * 8 for _ in range(8)]
     PLAYERS_BOARD[:] = [["_"] * 8 for _ in range(8)]
-    player_sunk_count = 0
-    computer_sunk_count = 0
+    PLAYER_SUNK_COUNT = 0
+    COMPUTER_SUNK_COUNT = 0
     for ship, details in SHIPS.items():
         details["sunk"] = False
     for ship in hits_computer:
@@ -174,8 +173,6 @@ def players_guess():
     Limit player to only enter specific format for guess (e.g., '1A', '2B').
     Returns row and column of location of input.
     """
-    print(HIDDEN_BOARD)                                           # REMOVE!
-
     letters_to_numbers = {
         "A": 0,
         "B": 1,
@@ -202,57 +199,61 @@ def players_guess():
 
     return int(row) - 1, letters_to_numbers[column]
 
-computer_last_hit = None
+
+COMPUTER_LAST_HIT = None
 computer_next_guess = ["up", "down", "left", "right"]
+
 
 def computer_guess(board):
     """
     Let the computer randomly guess the placement of the player's ships.
-    Checkes if the cell has been guessed or missed before. 
+    Checkes if the cell has been guessed or missed before.
     If the last move was a hit, next move will be in the same area.
     """
-    global computer_last_hit, computer_next_guess
+    global COMPUTER_LAST_HIT, computer_next_guess
 
-    if computer_last_hit:
-        row, column = computer_last_hit
+    if COMPUTER_LAST_HIT:
+        row, column = COMPUTER_LAST_HIT
         while computer_next_guess:
             direction = random.choice(computer_next_guess)
             computer_next_guess.remove(direction)
             if direction == "up" and row > 0 and board[row - 1][column] == "_":
-                print (row, column)
-                return row -1, column
+                print(row, column)
+                return row - 1, column
             elif direction == "down" and row < 7 and board[row + 1][column] == "_":
-                print (row, column)
-                return row +1, column
-            elif direction == "left" and column > 0 and board[row][column -1] == "_":
-                print (row, column)
-                return row, column -1
-            elif direction == "right" and column < 7 and board[row][column +1] == "_":
-                print (row, column)
-                return row, column +1
+                print(row, column)
+                return row + 1, column
+            elif direction == "left" and column > 0 and board[row][column - 1] == "_":
+                print(row, column)
+                return row, column - 1
+            elif direction == "right" and column < 7 and board[row][column + 1] == "_":
+                print(row, column)
+                return row, column + 1
 
-        computer_last_hit = None
+        COMPUTER_LAST_HIT = None
         computer_next_guess = ["up", "down", "left", "right"]
-    
+
     column, row = random.randint(0, 7), random.randint(0, 7)
     while board[row][column] == "X" or board[row][column] == "-":
         row, column = random.randint(0, 7), random.randint(0, 7)
-        print (row, column)
+        print(row, column)
     return row, column
 
 
-hits_player ={
+hits_player = {
     "Battleship": 0,
     "Submarine": 0,
     "Patrol boat": 0,
 }
 
+
 def players_turn():
     """
-    Players game logic. 
-    Check if the playes guess have been guess before, if any ship is hit/sunk or if the player misses.
+    Players game logic.
+    Check if the playes guess have been guess before.
+    Check if any ship is hit/sunk or if the player misses.
     """
-    global player_sunk_count
+    global PLAYER_SUNK_COUNT
     print_board(GUESS_BOARD)
 
     while True:
@@ -271,15 +272,18 @@ def players_turn():
                 print(f"You hit the {hit_ship}!\n")
                 hits_player[hit_ship] += 1
 
-                if hits_player[hit_ship] == SHIPS[hit_ship]["size"] and not SHIPS[hit_ship]["sunk"]:
+                if (
+                    hits_player[hit_ship] == SHIPS[hit_ship]["size"]
+                    and not SHIPS[hit_ship]["sunk"]
+                ):
                     SHIPS[hit_ship]["sunk"] = True
-                    player_sunk_count += 1
-                    print(player_sunk_count)                                          # REMOVE!!!!!!!!!!
+                    PLAYER_SUNK_COUNT += 1
                     print(f"You have sunk the computers {hit_ship}!\n")
             else:
                 print("Miss!\n")
                 GUESS_BOARD[row][column] = "X"
             break
+
 
 hits_computer = {
     "Battleship": 0,
@@ -287,11 +291,12 @@ hits_computer = {
     "Patrol boat": 0,
 }
 
+
 def computers_turn():
     """
     Computers game logic.
     """
-    global computer_sunk_count, computer_last_hit
+    global COMPUTER_SUNK_COUNT, COMPUTER_LAST_HIT
     computer_row, computer_column = computer_guess(PLAYERS_BOARD)
     hit_ship = None
     for ship, details in SHIPS.items():
@@ -305,12 +310,11 @@ def computers_turn():
         hits_computer[hit_ship] += 1
 
         if hits_computer[hit_ship] == SHIPS[hit_ship]["size"]:
-            computer_sunk_count += 1
-            print(computer_sunk_count)                          # REMOVE!!!!!!!!!!
+            COMPUTER_SUNK_COUNT += 1
             print(f"The computer has sunk your {hit_ship}!\n")
-            computer_last_hit = None
+            COMPUTER_LAST_HIT = None
         else:
-            computer_last_hit = (computer_row, computer_column)
+            COMPUTER_LAST_HIT = (computer_row, computer_column)
     else:
         PLAYERS_BOARD[computer_row][computer_column] = "-"
         print_board(PLAYERS_BOARD)
@@ -325,12 +329,12 @@ def main():
     create_computer_ships(HIDDEN_BOARD)
     while True:
         players_turn()
-        if player_sunk_count == 3:
+        if PLAYER_SUNK_COUNT == 3:
             print(f"Congratulations {name}, you won!")
             break
 
         computers_turn()
-        if computer_sunk_count == 3:
+        if COMPUTER_SUNK_COUNT == 3:
             print(f"Sorry {name}, the computer one!")
             break
 
@@ -338,7 +342,7 @@ def main():
     if restart == "Y":
         reset_game()
         main()
-    else: 
+    else:
         print(f"Thanks for playing {name}, goodbye!")
         sys.exit()
 
