@@ -41,9 +41,9 @@ XXXXXXXXXXXXXXXXXXXXXXXXX
 1. [**Planning stage**](#planning-stage)
     * [***Target Audiences***](#target-audiences)
     * [***User Stories***](#user-stories)
+    * [***Site Aims***](#site-aims)
 1. [**How to play**](#how-to-play)
 1. [**Features**](#features)
-    * [***Existing features***](#existing-features)
     * [***Future Enhancements***](#future-enhancements)
 1. [**Data Model**](#data-model)
 1. [**Future-Enhancements**](#future-enhancements)
@@ -51,56 +51,59 @@ XXXXXXXXXXXXXXXXXXXXXXXXX
     * [***Bugs***](#bugs)
 1. [**Deployment**](#deployment)
 1. [**Tech**](#tech)
-1. [**Credits**](#credits)
+1. [**Libraries**](#libraries)
+1. [**Libraries**](#libraries)
+1. [**Software**](#credits)
     * [**Honorable mentions**](#honorable-mentions)
     * [**General reference**](#general-reference)
     * [**Content**](#content)
 ​
 ## **Planning stage**
-### **Target Audiences:**
+### **Target Audiences:**​
+* People who like to play Battleships game. 
+* People who enjoy strategic board games.
+* People who prefer turn-based games over real-time games. 
+* People looking for a quick and engaging game during short breaks.
 ​
-This section is a breakdown of the target audience 3 or 4 bullet points so using our example
-​
-* Users interested in retro gaming 
-* Users interested in a safe environment to gather and have fun
-* Users interested in activities in the Sheffield area
-​
+
 ### **User Stories:**
+* As a user, I want to be able to place my own ships on the game board.
+* As a user, I want to input my guesses easily with as few clicks as possible.
+* As a user, I want to know when my ships are hit or sunk. 
+* As a user, I want to see the entrie game board, so I can strategize my next move. 
+* As a user, I want be able to restart the game quickly if I wish to play again.
+
+
+### **Site Aims:**
+* Introduce userst to the basics of strategy games and logical thinking.
+* Proivde an interactive platform for users to play Battleships online.
+* Offer a user-friendly interface. 
+* Ensure the game is playable without requering any special packages or installations.
 ​
-User stories are more what the user wants from the site in terms of features and presentation
-​
-* As a user, I want to see the subject matter of the page.
-* As a user, I want to navigate the page to find what I require quickly and easily.
-* As a user, I want to learn more about what the business offers
-* As a user, I want to reach out and contact the business
-​
+
 ## **How to play:**
-​
-This is optional but offers the insight into what the aim of the project are
+​Player must find and sink computers ships before the computer 
 ​
 * To inform the user on opening times
 * To inform the user about what we offer when they are here
 * To offer the user an oppertunity to get in contact
 
-
-## **Data Model**
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-​
-​
 ## **Features**
-* Accepts user input
+**Data Model**
+
+**Accepts user input**
     * Users name
     * Row and column in format e.g. 'A1'
 
-* Different types of ships
+**Different types of ships**
     * Three different types of ships
     * Marked with first character of ships name on board
 
-* Generating random board
+**Generating random board**
     * Ships are randomly placed for the computer
     * Player can not see placement of computers ships
 
-* Let player place ships on board
+**Let player place ships on board**
     * Player choses start position, row and column for the ships
     * Player chooses which orientation the ship should have
 
@@ -116,18 +119,106 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     * Player can choose to play again
     * Game restarts automatically where player place ships
 
-### **Existing features**
-
-* This is where you will place all of your features think about each section of the page include a screenshot and a few bullet points on how it's presented and why
 ​
 ### **Future-Enhancements**
-​
-* Scoreboard.
+* Adding player vs player option.
+* Adding a scoreboard both in the beginning and end to show improved performance,
 * Choose size of board and number of ships.
-* Limited turns and timer.
+* Option to chose limited turns and time.
 ​
 ## **Testing Phase**
-We have tested the game simultaneously througout development. Every function has been tested independently aswell when running the program. This to make sure that the functionality is working correctly as expected.
+We have tested the game simultaneously througout development. Every function has been tested independently aswell when running the program. Tests are described below and if bugs were found they are described under [Bugs](#bugs) .
+
+### **Functionality**
+#### **Valid input from user**
+The user makes several inputs playing the game, each input has been tested independently and ll works as expected.
+
+1. Input from user
+* **Name of player**
+    * **Description:** When starting the game, the player need to enter it name to be able to continue. The input is limited to only letters. 
+    * **Tests:** 
+        * 1. We have tested to enter a name several times and continue the game.
+        * 2. We have tested to enter numbers in the input, the game asked us to enter our name with letters only.
+    * **Result:** Tested passed, input works as expected.
+ 
+
+* **Row and column for placing ships**
+    * **Description:** The user is placeing the ships by choosing a starting position in format column + row ('A1', letter + number), and the enter if the orientation is horizontal ('H') or vertical ('V').
+    * **Tests:**
+        * Starting position
+            * 1. Input with correct format - A1, works as expected.
+            * 2. Input with incorrect format - Only letters, error message appears.
+            * 3. Input with incorrect format - Only number, error message appears.
+            * 4. Input with incorrect format - Only number or letter, error message appears.
+            * 5. Input with incorrect format - To long input two letters + number, error message appears.
+            * 6. Input with incorrect format - To long input one letters + two number, error message appears.
+
+            Error message appearing: *"Please enter starting position for Battleship (e.g., A1):"*
+
+        * Orientation
+            * 5. Input in correct format - 'H' for horizontal orientation, works as expected. 
+            * 6. Input in correct format - 'V' for vertical orientation, works as expected
+            * 7. Input with incorrect format - One letter, error message appears.
+            * 8. Input with incorrect format - Three letters, error message appears.
+            * 9. Input with incorrect format - One number, error message appears.
+            * 10. Input with incorrect format - Number + letter, error message appears.
+
+            Error message appearing: *Invalid orientation. Choose 'H' or 'V'. Enter orientation (H for horizontal, V for vertical):*
+
+    * **Result:** Works as expected.
+ 
+
+* **Row and column for guess**
+    * **Description:** When user makes a guess the format is limited to column + row ('A1'), before we started testing we realized that the format was the opposite of the the ship placement ('1A'), more described under [Bugs](#bugs) no.1. This to make the inputs less confusing for the user. 
+    * **Test:**
+        * 1. Input with correct format - A1, works as expected.
+        * 2. Input with incorrect format - Only letters, error message appears.
+        * 3. Input with incorrect format - Only number, error message appears.
+        * 4. Input with incorrect format - Only number or letter, error message appears.
+        * 5. Input with incorrect format - To long input two letters + number, error message appears.
+        * 6. Input with incorrect format - To long input one letters + two number, error message appears.
+
+        Error message appearing: *"Invalid input. Please enter your guess (e.g., '1A', '2B'):"*
+
+    * **Result:** Works as expected.
+ 
+
+2. Clear terminal
+**Description:** When the user contiues after entering the name, the terminal is cleared.
+
+**Test:**
+* Testing if the terminal clears when continue the game after entering name. 
+
+**Result:** Works as expected.
+
+3. Validation for ships placement
+**Description:** The user chose where the place the ships on the board by entering starting position and orientation. The game checks is there already is an other ship placed in the chosen cells and that the ships placement is inside the board. 
+
+**Tests:**
+* 1. Valid placement - Starting position ('A1') and orientation ('H'), the ship is being placed marked with the first character of the ships name.
+* 2. Invalid placement - On already placed ship, error message appears.
+* 3. Invalid placement - Outside of board (tested both horizontal and veritcal) , error message appears.
+
+**Result:**
+
+4. Hits, misses and secound guesses
+**Description:** When a user hits one of the computes ships, it is marked on the board with the first character of the ships name and a miss is marked with an 'X'. 
+When the computer hit one of the playes ships, the first character of the ship is changed to 'X' and a miss is marked with an '*'.
+
+**Test:**
+* 1. User hits ship, first character of ship name appears on game board and a messege telling the user which ship was hit.
+* 2. User misses ship, marked with 'X' on game board and a message telling the user it missed.
+* 3. Computer hits ship, first character of ship name changes to 'X' on players board, message tilling user computer hit ship appears.
+* 4. Computer misses ship, marked with '*X*' on game board and a message telling the user the computer missed.
+
+**Result:**
+
+
+Clear terminal
+**Description:**
+**Test:**
+**Result:**
+
 ​
 
 ### **Bugs**
@@ -157,6 +248,13 @@ We have tested the game simultaneously througout development. Every function has
         - When adding counting "X" to the function, since the computers hits become "X" on the `char`, the players ships would not be counted accurately.
     * Resolution - By not refactoring the function and moving the separate logic into the players and computers turn logic, the problem was solved and behaves as expected.
 
+5. **Check if cell already been guessed**
+    During development testing we realized the error message for guessing the same cell twice did not appear if the user had a hit in the perticular cell.
+
+    * Issue - User could guess same cell twice without the game warning and the computer continued guessing which led to the user getting fewer guesses than the computer.
+    * Resolution - 
+
+
 ​
 ***
 ## **Deployment**
@@ -171,7 +269,18 @@ You  can find the live site via the following URL - [live webpage](https://youru
 ***
 ​
 ## **Tech**
-​- Python
+* Python
+
+## **Libraries**
+* Random - Used to generate random place computers ships and for computer guesses. 
+* RE - Used to check valid input pattern of users guesses.
+* SYS - Exit the game if the user do not wish to play again.
+* OS - Used to clear terminal so the user have a clearer view of the game.
+* Time - Used to delay the computer's guess so that the user can easily follow along.
+
+## **Software**
+* VS Code to create, load and push my code to GitHub.
+* [patorjk.com](https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Battleships) for ASCII art.
 ​
 ## **Credits**
 ### **Honorable mentions**
@@ -182,5 +291,5 @@ It's always nice to mention those that helped you get there, if people gave you 
 XXXXXXXXXXXXXXXXXXXXXX
 
 ### **Content:**
+* Introduction, winner and loser ASCII art graphics from [patorjk.com](https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Battleships)
 ​
-If you took any code from online source and by this i mean copy paste with zero changes mention it here!
