@@ -1,40 +1,8 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
-
-Welcome USER_NAME,
-
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
-
-## Reminders
-
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
-
-## Creating the Heroku app
-
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
-
-1. `heroku/python`
-2. `heroku/nodejs`
-
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
-
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
-
-Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
-
------
-Happy coding!
-
 # **Battleships**
 ## **Site Overview**
-Battleships The primary objective of the Battleship game is to sink all of the opponent's ships before they sink yours. In this version, the player competes against the computer.
+The Battleship game is an engaging terminal-based duel between a human player and a computer opponent built in Python. In this classic naval combat game, both players strategically place their fleet of ships, including Battleships, Submarines, and Patrol boats, on a grid. Once the ships are set, the players take turns guessing the location of their opponent's vessels. 
 
-The game
+The game provides real-time feedback, updating the board to show hits and misses, and informing players when they've struck or sunk an adversary's ship. The computer opponent, not just relying on random guesses, adapts its strategy if it scores a hit, targeting nearby cells in a more calculated manner. Gameplay continues until one player successfully sinks all of the opponent's ships. With clear visual representations, input validations, and the option to replay, this Battleship rendition offers a comprehensive and immersive experience right in the terminal.
 ​
 ![Am I responsive screenshot](imagelocation so maybe docs/image.jpg)
 ​
@@ -180,10 +148,10 @@ The user makes several inputs playing the game, each input has been tested indep
             * 10. Input with incorrect format - Number + letter, error message appears.
             Error message appearing: *Invalid orientation. Choose 'H' or 'V'. Enter orientation (H for horizontal, V for vertical):*
     * **Result:** Works as expected.
- 
+
 
 * **Row and column for guess**
-    * **Description:** When user makes a guess the format is limited to column + row ('A1'), before we started testing we realized that the format was the opposite of the the ship placement ('1A'), more described under [Bugs](#bugs) no.1. This to make the inputs less confusing for the user. 
+    * **Description:** When user makes a guess the format is limited to column + row ('A1'), before we started testing we realized that the format was the opposite of the the ship placement ('1A'), more described under [Bugs](#bugs). This to make the inputs less confusing for the user. 
     * **Test:**
         * 1. Input with correct format - A1, works as expected.
         * 2. Input with incorrect format - Only letters, error message appears.
@@ -201,7 +169,6 @@ The user makes several inputs playing the game, each input has been tested indep
         * 2. Input any other key - The game thanks the player and says goodbye.
     * **Result:** Works as expected.
 
- 
 
 ##### **2. Clear terminal**
 **Description:** The terminal clears after entering name
@@ -226,7 +193,7 @@ Error message: *"Ship placement out of bounds, try again."*
 
 **Test:** When playing the game we tried to change the time in `time.sleep()` function to see if it the delayed time changed and deciding what would be a suitable for delay, ending up with 1 second.
 
-* *Result:** Work as expected.
+* **Result:** Work as expected.
 
 
 ##### **5. User hits, misses, sunk ship and secound guesses**
@@ -242,7 +209,7 @@ Error message: *"You already guessed that, try again."*
 * 5. Messeges prints when the user sinks a ship. 
 Message: *"You have sunk the computers [Name of ship]!"*
 
-**Result:** We found a bug described in [Bug](#bugs) no. 5. After solving the issues it works as expected.
+**Result:** We found a bug described in [Bug](#bugs). After solving the issues it works as expected.
 
 
 ##### **6. Computer hits, misses, sunk ships and next guess**
@@ -296,15 +263,36 @@ Results showed 6 errors, "E501 line too long", which are all related to the ASCI
 
     * Issue - User could guess same cell twice without the game warning and the computer continued guessing which led to the user getting fewer guesses than the computer.
     * Resolution - By creating a variable `ship_chars` that iterates over the values of the `SHIPS` dictionary and adding it to the validation method checking if the cell already been guessed we could solve the problem.
-
-
 ​
 ***
 ## **Deployment**
 This project was deployed to Heroku through the following process:
 
+### **Setting up app**
 1. Log in to [Heroku.com](https://heroku.com)
-2. 
+2. Clicked the button labeled **"New"** on the dashboard in the top right corner under the profile picture.
+3. Chooseing **"Create new app"** from the dropdown menu.
+4. Enter a **unique** name, we chose ***btlships*** since "Battleships" was already taken.
+5. Chose a region, we chose Europe since it is the most relevant.
+6. Click button labeled **"Create app"** and come to the projects **"Deploy"** tab.
+
+### **Settings tab**
+7. Click the **"Settings"** tab and navigate to **"config Vars"** section.
+8. Added **`PORT`** as and **`8000`** as value, then clicked **"add"**.
+9. Scroll down to **"Buildpacks"** section, clicking **"Add buildpack"** and then selection **"Python"**.
+10. Repeating the process above but adding **"Node.js"** instead of "Python".
+
+### **Deplay tab**
+11. Click **"Deploy"** in the tabs menu.
+12. Chose **GitHub** as **"Deployment method"**.
+13. Comfirm connection. 
+14. Search for the repository name and click **"Connect"**. 
+15. Chose **"Automatic deploys"** or **"Manual deploys"**.
+
+
+
+
+
 ​
 ## **Tech**
 * Python
@@ -322,11 +310,11 @@ This project was deployed to Heroku through the following process:
 ​
 ## **Credits**
 ### **Honorable mentions**
-​
-It's always nice to mention those that helped you get there, if people gave you support on slack or the local cat scared you into completing give them a mention!
+* Richard Wells, my mentor, who is always very supportive and helpful. This project would not be possible without the help I got to clear things out and 
 ​
 ### **Genral references:**
-XXXXXXXXXXXXXXXXXXXXXX
+* All code is written by myself. 
+* I have used [ChatGPT](https://openai.com) when I got stuck and could not figure out how to get forward. I have not asked ChatGPT to write code for me without contributing my own code to be fixed. 
 
 ### **Content:**
 * Introduction, winner and loser ASCII art graphics from [patorjk.com](https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Battleships)
