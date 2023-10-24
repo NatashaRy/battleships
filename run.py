@@ -263,11 +263,12 @@ def players_turn():
     """
     global PLAYER_SUNK_COUNT
     print_board(GUESS_BOARD)
+
     ship_chars = [details["char"] for details in SHIPS.values()]
 
     while True:
         row, column = players_guess()
-        if GUESS_BOARD[row][column] == "X":
+        if GUESS_BOARD[row][column] in ["X"] + ship_chars:
             print("You already guessed that, try again.\n")
             continue
         else:
@@ -337,7 +338,7 @@ def main():
     create_computer_ships(HIDDEN_BOARD)
     place_players_ships(PLAYERS_BOARD)
     while True:
-        time.sleep(1.2)
+        time.sleep(1)
         players_turn()
         if PLAYER_SUNK_COUNT == 3:
             print(f"Congratulations {name}!")
@@ -364,8 +365,8 @@ def main():
                    ╚═╝    ╚═════╝  ╚═════╝     ╚══════╝ ╚═════╝ ╚══════╝   ╚═╝   ╚═╝        ╚═╝                                                                      
                 """)
             break
-
-    restart = input("Do you want to play again? (y/n): ").upper()
+    time.sleep(1)
+    restart = input("Do you want to play again? (y for yes, other key for no): ").upper()
     if restart == "Y":
         reset_game()
         main()
@@ -374,6 +375,15 @@ def main():
         exit()
 
 
+print("""
+
+       ██╗     ███████╗████████╗███████╗    ██████╗ ██╗      █████╗ ██╗   ██╗
+       ██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝
+       ██║     █████╗     ██║   ███████╗    ██████╔╝██║     ███████║ ╚████╔╝ 
+       ██║     ██╔══╝     ██║   ╚════██║    ██╔═══╝ ██║     ██╔══██║  ╚██╔╝  
+       ███████╗███████╗   ██║   ███████║    ██║     ███████╗██║  ██║   ██║   
+       ╚══════╝╚══════╝   ╚═╝   ╚══════╝    ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   
+""")
 print("""
 ██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗ ███████╗
 ██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗██╔════╝
