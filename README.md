@@ -223,12 +223,13 @@ Message: *"The computer has sunk your [Name of ship]!"*
 
 **Result:** Works as expected.
 
-
 ### **Validators**
 **PEP8 Online Validator**
-Results showed 6 errors, "E501 line too long", which are all related to the ASCII art which is used on the start screen. This error does not affect the functionality of the game while contributing to a better experience for the user.
+Results showed 9 errors, "E501 line too long".
+* Line 244, 246, 248: are related to the check the next guess for the computer in relation to the last hit. When trying to split the line, the function does not work as expected. So we have decided not to make any changes.
+* Line 398-403: are all related to the ASCII art which is used on the start screen. This error does not affect the functionality of the game while contributing to a better experience for the user.
 
-​
+
 
 ### **Bugs**
 #### **During development**
@@ -288,10 +289,6 @@ This project was deployed to Heroku through the following process:
 13. Comfirm connection. 
 14. Search for the repository name and click **"Connect"**. 
 15. Chose **"Automatic deploys"** or **"Manual deploys"**.
-
-
-
-
 
 ​
 ## **Tech**

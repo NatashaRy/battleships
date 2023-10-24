@@ -242,11 +242,11 @@ def computer_guess(board):
             if direction == "up" and row > 0 and board[row - 1][column] == "_":
                 return row - 1, column
             elif direction == "down" and row < 7 and board[row + 1][column] == "_":
-                    return row + 1, column
+                return row + 1, column
             elif direction == "left" and column > 0 and board[row][column - 1] == "_":
-                    return row, column - 1
+                return row, column - 1
             elif direction == "right" and column < 7 and board[row][column + 1] == "_":
-                    return row, column + 1
+                return row, column + 1
 
         COMPUTER_LAST_HIT = None
         computer_next_guess = ["up", "down", "left", "right"]
@@ -393,7 +393,6 @@ print("""
        ███████╗███████╗   ██║   ███████║    ██║     ███████╗██║  ██║   ██║
        ╚══════╝╚══════╝   ╚═╝   ╚══════╝    ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝
     """)
-
 print("""
 ██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗ ███████╗
 ██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗██╔════╝
