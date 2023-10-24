@@ -32,7 +32,9 @@ Happy coding!
 
 # **Battleships**
 ## **Site Overview**
-XXXXXXXXXXXXXXXXXXXXXXXXX
+Battleships The primary objective of the Battleship game is to sink all of the opponent's ships before they sink yours. In this version, the player competes against the computer.
+
+The game
 ​
 ![Am I responsive screenshot](imagelocation so maybe docs/image.jpg)
 ​
@@ -51,7 +53,6 @@ XXXXXXXXXXXXXXXXXXXXXXXXX
     * [***Bugs***](#bugs)
 1. [**Deployment**](#deployment)
 1. [**Tech**](#tech)
-1. [**Libraries**](#libraries)
 1. [**Libraries**](#libraries)
 1. [**Software**](#credits)
     * [**Honorable mentions**](#honorable-mentions)
@@ -82,13 +83,29 @@ XXXXXXXXXXXXXXXXXXXXXXXXX
 ​
 
 ## **How to play:**
-​Player must find and sink computers ships before the computer 
+
 ​
 * To inform the user on opening times
 * To inform the user about what we offer when they are here
 * To offer the user an oppertunity to get in contact
 
 ## **Features**
+
+**1. Two player game**
+* The game is designed for two players: the human player and the computer opponent. 
+
+**2. Interactive ship placement**
+* Users manually place their ships on the board.
+* Choosing both the starting position and orientation (horizontal or vertical).
+
+**3. Randomize computer ship placement**
+* The computer opponent places its ships on the board randomly at the start of each game.
+
+**4. Guessing mechanism**
+* Players take turns guessing the location of the opponent's ships on the board.
+* The game provides feedback on whether a guess results in a hit or miss.
+
+
 **Data Model**
 
 **Accepts user input**
@@ -205,9 +222,11 @@ Error message: *"Ship placement out of bounds, try again."*
 **Result:** Works as expected.
 
 ##### **4. Delay** 
-**Description:** The terminal delays between each guess 
+**Description:** The terminal add a delay when user placed ships, between guesses, before restart option appears
+
 **Test:** When playing the game we tried to change the time in `time.sleep()` function to see if it the delayed time changed and deciding what would be a suitable for delay, ending up with 1 second.
-**Result:** Work as expected.
+
+* *Result:** Work as expected.
 
 
 ##### **5. User hits, misses, sunk ship and secound guesses**
@@ -216,7 +235,7 @@ Error message: *"Ship placement out of bounds, try again."*
 **Test:**
 * 1. Input guess that hit ship, when hit, first character of ship name appears on game board and prints messege telling the user which ship was hit. 
 Message: *"You hit the  [Name of ship]!"*
-* 2. Input guess that misses ship, marked with 'X' on game board and a message telling the user it missed.
+* 2. Input guess that misses ship, marked with '×' on game board and a message telling the user it missed.
 * 3. Input guess for hit placement, error message appears.
 * 4. Input guess for missed placement, error message appears.
 Error message: *"You already guessed that, try again."*
@@ -227,10 +246,10 @@ Message: *"You have sunk the computers [Name of ship]!"*
 
 
 ##### **6. Computer hits, misses, sunk ships and next guess**
-**Description:** When the computer hit one of the playes ships, the first character of the ship is changed to 'X' and a miss is marked with an '*'.
+**Description:** When the computer hit one of the playes ships, the first character of the ship is changed to '×' and a miss is marked with an '⁑'.
 
-* 1. Computer hits ship, first character of ship name changes to 'X' on players board, print message telling user computer hit ship appears.
-* 2. Computer misses ship, marked with '*' on game board and print message telling the user the computer missed.
+* 1. Computer hits ship, first character of ship name changes to '×' on players board, print message telling user computer hit ship appears.
+* 2. Computer misses ship, marked with '⁑' on game board and print message telling the user the computer missed.
 * 3. Messeges prints when the computer sinks a ship.
 Message: *"The computer has sunk your [Name of ship]!"*
 * 4. When the computer hits a ship but not sink it, the next guess should be in the nearby area, we have tested this by printing the next guess in the terminal.
@@ -238,10 +257,9 @@ Message: *"The computer has sunk your [Name of ship]!"*
 **Result:** Works as expected.
 
 
-##### **0. Clear terminal**
-**Description:**
-**Test:**
-**Result:**
+### **Validators**
+**PEP8 Online Validator**
+Results showed 6 errors, "E501 line too long", which are all related to the ASCII art which is used on the start screen. This error does not affect the functionality of the game while contributing to a better experience for the user.
 
 ​
 
@@ -283,15 +301,10 @@ Message: *"The computer has sunk your [Name of ship]!"*
 ​
 ***
 ## **Deployment**
-I deployed the page on GitHub pages via the following procedure: -
-​
-1. From the project's [https://github.com/NatashaRy/battleships](pageurl), go to the **Settings** tab.
-2. From the left-hand menu, select the **Pages** tab.
-3. Under the **Source** section, select the **Main** branch from the drop-down menu and click **Save**.
-4. A message will be displayed to indicate a successful deployment to GitHub pages and provide the live link.
-​
-You  can find the live site via the following URL - [live webpage](https://yoururlhere)
-***
+This project was deployed to Heroku through the following process:
+
+1. Log in to [Heroku.com](https://heroku.com)
+2. 
 ​
 ## **Tech**
 * Python
