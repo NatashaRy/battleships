@@ -133,13 +133,13 @@ We have tested the game simultaneously througout development. Every function has
 #### **Valid input from user**
 The user makes several inputs playing the game, each input has been tested independently and ll works as expected.
 
-1. Input from user
+##### **1. Input from user**
 * **Name of player**
     * **Description:** When starting the game, the player need to enter it name to be able to continue. The input is limited to only letters. 
     * **Tests:** 
         * 1. We have tested to enter a name several times and continue the game.
         * 2. We have tested to enter numbers in the input, the game asked us to enter our name with letters only.
-    * **Result:** Tested passed, input works as expected.
+    * **Result:** Works as expected.
  
 
 * **Row and column for placing ships**
@@ -152,7 +152,6 @@ The user makes several inputs playing the game, each input has been tested indep
             * 4. Input with incorrect format - Only number or letter, error message appears.
             * 5. Input with incorrect format - To long input two letters + number, error message appears.
             * 6. Input with incorrect format - To long input one letters + two number, error message appears.
-
             Error message appearing: *"Please enter starting position for Battleship (e.g., A1):"*
 
         * Orientation
@@ -162,9 +161,7 @@ The user makes several inputs playing the game, each input has been tested indep
             * 8. Input with incorrect format - Three letters, error message appears.
             * 9. Input with incorrect format - One number, error message appears.
             * 10. Input with incorrect format - Number + letter, error message appears.
-
             Error message appearing: *Invalid orientation. Choose 'H' or 'V'. Enter orientation (H for horizontal, V for vertical):*
-
     * **Result:** Works as expected.
  
 
@@ -177,44 +174,71 @@ The user makes several inputs playing the game, each input has been tested indep
         * 4. Input with incorrect format - Only number or letter, error message appears.
         * 5. Input with incorrect format - To long input two letters + number, error message appears.
         * 6. Input with incorrect format - To long input one letters + two number, error message appears.
-
-        Error message appearing: *"Invalid input. Please enter your guess (e.g., '1A', '2B'):"*
-
+        Error message: *"Invalid input. Please enter your guess (e.g., '1A', '2B'):"*
     * **Result:** Works as expected.
+
+* **Restart game**
+    * **Description:** When game ends the player can choose to restart the game by usin "Y" for yes and any other key for no.
+    * **Test:**
+        * 1. Input "Y" - The game is restarted.
+        * 2. Input any other key - The game thanks the player and says goodbye.
+    * **Result:** Works as expected.
+
  
 
-2. Clear terminal
-**Description:** When the user contiues after entering the name, the terminal is cleared.
-
+##### **2. Clear terminal**
+**Description:** The terminal clears after entering name
 **Test:**
 * Testing if the terminal clears when continue the game after entering name. 
-
 **Result:** Works as expected.
 
-3. Validation for ships placement
-**Description:** The user chose where the place the ships on the board by entering starting position and orientation. The game checks is there already is an other ship placed in the chosen cells and that the ships placement is inside the board. 
+##### **3. Validation for ships placement**
+**Description:** The user chose where the place the ships on the board by entering starting position and orientation. The game checks is there already is an other ship placed in the chosen cells and that the ships placement is inside the board. Prints messages when all ships are placed on board.
 
 **Tests:**
 * 1. Valid placement - Starting position ('A1') and orientation ('H'), the ship is being placed marked with the first character of the ships name.
 * 2. Invalid placement - On already placed ship, error message appears.
+Error message: *"Another ship is already in that position."*
 * 3. Invalid placement - Outside of board (tested both horizontal and veritcal) , error message appears.
+Error message: *"Ship placement out of bounds, try again."*
+* 4. Valid placement fpr all ships - Sucess message printed *"All ships have been successfully placed!*
+**Result:** Works as expected.
 
-**Result:**
+##### **4. Delay** 
+**Description:** The terminal delays between each guess 
+**Test:** When playing the game we tried to change the time in `time.sleep()` function to see if it the delayed time changed and deciding what would be a suitable for delay, ending up with 1 second.
+**Result:** Work as expected.
 
-4. Hits, misses and secound guesses
-**Description:** When a user hits one of the computes ships, it is marked on the board with the first character of the ships name and a miss is marked with an 'X'. 
-When the computer hit one of the playes ships, the first character of the ship is changed to 'X' and a miss is marked with an '*'.
+
+##### **5. User hits, misses, sunk ship and secound guesses**
+**Description:** When a user hits one of the computes ships, it is marked on the board with the first character of the ships name and a miss is marked with an 'X'.
 
 **Test:**
-* 1. User hits ship, first character of ship name appears on game board and a messege telling the user which ship was hit.
-* 2. User misses ship, marked with 'X' on game board and a message telling the user it missed.
-* 3. Computer hits ship, first character of ship name changes to 'X' on players board, message tilling user computer hit ship appears.
-* 4. Computer misses ship, marked with '*X*' on game board and a message telling the user the computer missed.
+* 1. Input guess that hit ship, when hit, first character of ship name appears on game board and prints messege telling the user which ship was hit. 
+Message: *"You hit the  [Name of ship]!"*
+* 2. Input guess that misses ship, marked with 'X' on game board and a message telling the user it missed.
+* 3. Input guess for hit placement, error message appears.
+* 4. Input guess for missed placement, error message appears.
+Error message: *"You already guessed that, try again."*
+* 5. Messeges prints when the user sinks a ship. 
+Message: *"You have sunk the computers [Name of ship]!"*
 
-**Result:**
+**Result:** We found a bug described in [Bug](#bugs) no. 5. After solving the issues it works as expected.
 
 
-Clear terminal
+##### **6. Computer hits, misses, sunk ships and next guess**
+**Description:** When the computer hit one of the playes ships, the first character of the ship is changed to 'X' and a miss is marked with an '*'.
+
+* 1. Computer hits ship, first character of ship name changes to 'X' on players board, print message telling user computer hit ship appears.
+* 2. Computer misses ship, marked with '*' on game board and print message telling the user the computer missed.
+* 3. Messeges prints when the computer sinks a ship.
+Message: *"The computer has sunk your [Name of ship]!"*
+* 4. When the computer hits a ship but not sink it, the next guess should be in the nearby area, we have tested this by printing the next guess in the terminal.
+
+**Result:** Works as expected.
+
+
+##### **0. Clear terminal**
 **Description:**
 **Test:**
 **Result:**
@@ -246,13 +270,14 @@ Clear terminal
         - The counter would only count each ship one time per a round e.g. if the player sunk the computers Battleship, it would not be counted when the computer would sink the players Battleship and so on.
         - When counting the characters of the ships compared to size the computes ships would not be counted accuratly. 
         - When adding counting "X" to the function, since the computers hits become "X" on the `char`, the players ships would not be counted accurately.
+
     * Resolution - By not refactoring the function and moving the separate logic into the players and computers turn logic, the problem was solved and behaves as expected.
 
 5. **Check if cell already been guessed**
     During development testing we realized the error message for guessing the same cell twice did not appear if the user had a hit in the perticular cell.
 
     * Issue - User could guess same cell twice without the game warning and the computer continued guessing which led to the user getting fewer guesses than the computer.
-    * Resolution - 
+    * Resolution - By creating a variable `ship_chars` that iterates over the values of the `SHIPS` dictionary and adding it to the validation method checking if the cell already been guessed we could solve the problem.
 
 
 ​
