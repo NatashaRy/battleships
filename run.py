@@ -11,7 +11,6 @@ misses are marked with 'X'.
 
 import random
 import re
-import sys
 import os
 import time
 
@@ -26,10 +25,7 @@ def reset_game():
     """
     Resets the game and let the game boards be modified.
     """
-    global PLAYER_SUNK_COUNT,
-    COMPUTER_SUNK_COUNT,
-    COMPUTER_LAST_HIT,
-    computer_next_guess
+    global PLAYER_SUNK_COUNT, COMPUTER_SUNK_COUNT
     HIDDEN_BOARD[:] = [["_"] * 8 for _ in range(8)]
     GUESS_BOARD[:] = [["_"] * 8 for _ in range(8)]
     PLAYERS_BOARD[:] = [["_"] * 8 for _ in range(8)]
@@ -188,6 +184,7 @@ def place_players_ships(board):
                 print(f"{ship} placed on the board.\n")
     print_board(PLAYERS_BOARD)
     print("All ships have been successfully placed!\n")
+    time.sleep(1)
     os.system("cls||clear")
 
 
@@ -242,21 +239,13 @@ def computer_guess(board):
         while computer_next_guess:
             direction = random.choice(computer_next_guess)
             computer_next_guess.remove(direction)
-            if direction == "up"
-            and row > 0
-            and board[row - 1][column] == "_":
+            if direction == "up" and row > 0 and board[row - 1][column] == "_":
                 return row - 1, column
-            elif direction == "down"
-            and row < 7
-            and board[row + 1][column] == "_":
+            elif direction == "down" and row < 7 and board[row + 1][column] == "_":
                 return row + 1, column
-            elif direction == "left"
-            and column > 0
-            and board[row][column - 1] == "_":
+            elif direction == "left" and column > 0 and board[row][column - 1] == "_":
                 return row, column - 1
-            elif direction == "right"
-            and column < 7
-            and board[row][column + 1] == "_":
+            elif direction == "right" and column < 7 and board[row][column + 1] == "_":
                 return row, column + 1
 
         COMPUTER_LAST_HIT = None
@@ -265,7 +254,6 @@ def computer_guess(board):
     column, row = random.randint(0, 7), random.randint(0, 7)
     while board[row][column] == "×" or board[row][column] == "":
         row, column = random.randint(0, 7), random.randint(0, 7)
-        print(row, column)
     return row, column
 
 
@@ -334,6 +322,7 @@ def computers_turn():
         if PLAYERS_BOARD[computer_row][computer_column] == details["char"]:
             hit_ship = ship
             break
+
     if hit_ship:
         PLAYERS_BOARD[computer_row][computer_column] = "×"
         print_board(PLAYERS_BOARD)
