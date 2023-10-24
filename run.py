@@ -1,10 +1,12 @@
 """
 Legend:
 PLAYERS_BOARD - Where the computer guesses.
-Ships are marked with the first character of the ships name, hit is marked with 'X' and miss with '-'.
+Ships are marked with the first character of the ships name,
+hit is marked with 'X' and miss with '-'.
 
 GUESS_BOARD - Where the player guesses.
-Hits are marked with the first character of the ship's name, misses are marked with 'X'.
+Hits are marked with the first character of the ship's name,
+misses are marked with 'X'.
 """
 
 import random
@@ -19,11 +21,15 @@ PLAYERS_BOARD = [["_"] * 8 for _ in range(8)]
 PLAYER_SUNK_COUNT = 0
 COMPUTER_SUNK_COUNT = 0
 
+
 def reset_game():
     """
     Resets the game and let the game boards be modified.
     """
-    global PLAYER_SUNK_COUNT, COMPUTER_SUNK_COUNT, COMPUTER_LAST_HIT, computer_next_guess
+    global PLAYER_SUNK_COUNT,
+    COMPUTER_SUNK_COUNT,
+    COMPUTER_LAST_HIT,
+    computer_next_guess
     HIDDEN_BOARD[:] = [["_"] * 8 for _ in range(8)]
     GUESS_BOARD[:] = [["_"] * 8 for _ in range(8)]
     PLAYERS_BOARD[:] = [["_"] * 8 for _ in range(8)]
@@ -76,7 +82,8 @@ SHIPS = {
 
 def create_computer_ships(board):
     """
-    Create computer's ships on board randomly, placement marked with the ship's character.
+    Create computer's ships on board randomly,
+    placement marked with the ship's character.
     Checks the size of the ship to verify that placement is valid.
     """
     for ship, details in SHIPS.items():
@@ -94,14 +101,16 @@ def create_computer_ships(board):
                 ship_column = random.randint(0, 7)
             if orientation == "H":
                 if all(
-                    [board[ship_row][ship_column + i] == "_" for i in range(ship_size)]
+                    [board[ship_row][ship_column + i] == "_"
+                     for i in range(ship_size)]
                 ):
                     for i in range(ship_size):
                         board[ship_row][ship_column + i] = ship_char
                     placed = True
             else:
                 if all(
-                    [board[ship_row + i][ship_column] == "_" for i in range(ship_size)]
+                    [board[ship_row + i][ship_column] == "_"
+                     for i in range(ship_size)]
                 ):
                     for i in range(ship_size):
                         board[ship_row + i][ship_column] = ship_char
@@ -110,7 +119,8 @@ def create_computer_ships(board):
 
 def place_players_ships(board):
     """
-    Let players place their ships on board, by choosing starting position and orientation.
+    Let players place their ships on board,
+    by choosing starting position and orientation.
     Limit players to only enter specific format for guesses (e.g., '1A', '2B').
     Placement marked with the ship's character.
     """
@@ -132,7 +142,7 @@ def place_players_ships(board):
                     or position[0] not in "ABCDEFGH"
                     or not position[1:].isdigit()
                 ):
-                    print("Invalid position. Please use the format 'A1', 'C3' etc.")
+                    print("Invalid position. Please use the format 'A1'")
                 else:
                     break
 
@@ -157,7 +167,8 @@ def place_players_ships(board):
 
             if orientation == "H":
                 if all(
-                    board[row][col] == "_" for col in range(column, column + ship_size)
+                    board[row][col] == "_"
+                    for col in range(column, column + ship_size)
                 ):
                     for col in range(column, column + ship_size):
                         board[row][col] = ship_char
@@ -165,7 +176,8 @@ def place_players_ships(board):
                 else:
                     print("Another ship is already in that position.")
             else:
-                if all(board[r][column] == "_" for r in range(row, row + ship_size)):
+                if all(board[r][column] == "_"
+                   for r in range(row, row + ship_size)):
                     for r in range(row, row + ship_size):
                         board[r][column] = ship_char
                     placed = True
@@ -178,10 +190,11 @@ def place_players_ships(board):
     print("All ships have been successfully placed!\n")
     os.system("cls||clear")
 
+
 def players_guess():
     """
     Convert letters to numbers, get location of ships.
-    Limit players to only enter specific formats for guesses (e.g., '1A', '2B').
+    Limit players to only enter specific formats for guesses.
     Returns row and column of location of input.
     """
 
@@ -198,10 +211,10 @@ def players_guess():
 
     pattern = re.compile(r"^[A-Ha-h][1-8]$")
 
-    guess = input("Please enter your guess (e.g., 'A1'): ").upper().replace("_", "")
+    guess = input("Please enter your guess ('A1'): ").upper().replace("_", "")
     while not pattern.match(guess):
         guess = (
-            input("Invalid input. Please enter your guess (e.g., '1A', '2B'): ")
+            input("Invalid input. Please enter your guess (e.g., '1A'): ")
             .upper()
             .replace("_", "")
         )
@@ -229,20 +242,28 @@ def computer_guess(board):
         while computer_next_guess:
             direction = random.choice(computer_next_guess)
             computer_next_guess.remove(direction)
-            if direction == "up" and row > 0 and board[row - 1][column] == "_":
+            if direction == "up"
+            and row > 0
+            and board[row - 1][column] == "_":
                 return row - 1, column
-            elif direction == "down" and row < 7 and board[row + 1][column] == "_":
+            elif direction == "down"
+            and row < 7
+            and board[row + 1][column] == "_":
                 return row + 1, column
-            elif direction == "left" and column > 0 and board[row][column - 1] == "_":
+            elif direction == "left"
+            and column > 0
+            and board[row][column - 1] == "_":
                 return row, column - 1
-            elif direction == "right" and column < 7 and board[row][column + 1] == "_":
+            elif direction == "right"
+            and column < 7
+            and board[row][column + 1] == "_":
                 return row, column + 1
 
         COMPUTER_LAST_HIT = None
         computer_next_guess = ["up", "down", "left", "right"]
 
     column, row = random.randint(0, 7), random.randint(0, 7)
-    while board[row][column] == "X" or board[row][column] == "*":
+    while board[row][column] == "×" or board[row][column] == "":
         row, column = random.randint(0, 7), random.randint(0, 7)
         print(row, column)
     return row, column
@@ -268,7 +289,7 @@ def players_turn():
 
     while True:
         row, column = players_guess()
-        if GUESS_BOARD[row][column] in ["X"] + ship_chars:
+        if GUESS_BOARD[row][column] in ["×"] + ship_chars:
             print("You already guessed that, try again.\n")
             continue
         else:
@@ -291,7 +312,7 @@ def players_turn():
                     print(f"You have sunk the computers {hit_ship}!\n")
             else:
                 print("Miss!\n")
-                GUESS_BOARD[row][column] = "X"
+                GUESS_BOARD[row][column] = "×"
             break
 
 
@@ -314,7 +335,7 @@ def computers_turn():
             hit_ship = ship
             break
     if hit_ship:
-        PLAYERS_BOARD[computer_row][computer_column] = "X"
+        PLAYERS_BOARD[computer_row][computer_column] = "×"
         print_board(PLAYERS_BOARD)
         print(f"Computer hit your {hit_ship}!\n")
         hits_computer[hit_ship] += 1
@@ -326,7 +347,7 @@ def computers_turn():
         else:
             COMPUTER_LAST_HIT = (computer_row, computer_column)
     else:
-        PLAYERS_BOARD[computer_row][computer_column] = "*"
+        PLAYERS_BOARD[computer_row][computer_column] = "⁑"
         print_board(PLAYERS_BOARD)
         print("Computer missed!\n")
 
@@ -343,13 +364,13 @@ def main():
         if PLAYER_SUNK_COUNT == 3:
             print(f"Congratulations {name}!")
             print("""
-██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗ ██████╗ ███╗   ██╗██╗       ██╗ 
+██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗ ██████╗ ███╗   ██╗██╗       ██╗
 ╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██╔═══██╗████╗  ██║██║    ██╗╚██╗
  ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║   ██║██╔██╗ ██║██║    ╚═╝ ██║
   ╚██╔╝  ██║   ██║██║   ██║    ██║███╗██║██║   ██║██║╚██╗██║╚═╝    ██╗ ██║
    ██║   ╚██████╔╝╚██████╔╝    ╚███╔███╔╝╚██████╔╝██║ ╚████║██╗    ╚═╝██╔╝
-   ╚═╝    ╚═════╝  ╚═════╝      ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝       ╚═╝                                    
-                """)
+   ╚═╝    ╚═════╝  ╚═════╝      ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝       ╚═╝
+            """)
             break
         time.sleep(1)
 
@@ -357,16 +378,16 @@ def main():
         if COMPUTER_SUNK_COUNT == 3:
             print(f"Sorry {name}, the computer won!")
             print("""
-                ██╗   ██╗ ██████╗ ██╗   ██╗    ██╗      ██████╗ ███████╗████████╗██╗        ██╗
-                ╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║     ██╔═══██╗██╔════╝╚══██╔══╝██║    ██╗██╔╝
-                 ╚████╔╝ ██║   ██║██║   ██║    ██║     ██║   ██║███████╗   ██║   ██║    ╚═╝██║ 
-                  ╚██╔╝  ██║   ██║██║   ██║    ██║     ██║   ██║╚════██║   ██║   ╚═╝    ██╗██║ 
-                   ██║   ╚██████╔╝╚██████╔╝    ███████╗╚██████╔╝███████║   ██║   ██╗    ╚═╝╚██╗
-                   ╚═╝    ╚═════╝  ╚═════╝     ╚══════╝ ╚═════╝ ╚══════╝   ╚═╝   ╚═╝        ╚═╝                                                                      
-                """)
+██╗   ██╗ ██████╗ ██╗   ██╗    ██╗      ██████╗ ███████╗████████╗██╗        ██╗
+╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║     ██╔═══██╗██╔════╝╚══██╔══╝██║    ██╗██╔╝
+ ╚████╔╝ ██║   ██║██║   ██║    ██║     ██║   ██║███████╗   ██║   ██║    ╚═╝██║
+  ╚██╔╝  ██║   ██║██║   ██║    ██║     ██║   ██║╚════██║   ██║   ╚═╝    ██╗██║
+   ██║   ╚██████╔╝╚██████╔╝    ███████╗╚██████╔╝███████║   ██║   ██╗    ╚═╝╚██╗
+   ╚═╝    ╚═════╝  ╚═════╝     ╚══════╝ ╚═════╝ ╚══════╝   ╚═╝   ╚═╝        ╚═╝
+            """)
             break
     time.sleep(1)
-    restart = input("Do you want to play again? (y for yes, other key for no): ").upper()
+    restart = input("Do you want to play again? (y for yes): ").upper()
     if restart == "Y":
         reset_game()
         main()
@@ -376,14 +397,14 @@ def main():
 
 
 print("""
-
        ██╗     ███████╗████████╗███████╗    ██████╗ ██╗      █████╗ ██╗   ██╗
        ██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝
-       ██║     █████╗     ██║   ███████╗    ██████╔╝██║     ███████║ ╚████╔╝ 
-       ██║     ██╔══╝     ██║   ╚════██║    ██╔═══╝ ██║     ██╔══██║  ╚██╔╝  
-       ███████╗███████╗   ██║   ███████║    ██║     ███████╗██║  ██║   ██║   
-       ╚══════╝╚══════╝   ╚═╝   ╚══════╝    ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   
-""")
+       ██║     █████╗     ██║   ███████╗    ██████╔╝██║     ███████║ ╚████╔╝
+       ██║     ██╔══╝     ██║   ╚════██║    ██╔═══╝ ██║     ██╔══██║  ╚██╔╝
+       ███████╗███████╗   ██║   ███████║    ██║     ███████╗██║  ██║   ██║
+       ╚══════╝╚══════╝   ╚═╝   ╚══════╝    ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝
+    """)
+
 print("""
 ██████╗  █████╗ ████████╗████████╗██╗     ███████╗███████╗██╗  ██╗██╗██████╗ ███████╗
 ██╔══██╗██╔══██╗╚══██╔══╝╚══██╔══╝██║     ██╔════╝██╔════╝██║  ██║██║██╔══██╗██╔════╝
